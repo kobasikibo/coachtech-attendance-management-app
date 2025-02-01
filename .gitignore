@@ -1,0 +1,21 @@
+# Laravel (PHP)
+vendor/
+node_modules/
+.env
+/public/storage
+/storage/*.key
+
+# Docker
+# Ignore Docker files and directories
+docker-compose.override.yml
+docker-compose.local.yml
+*.log
+*.pid
+*.bak
+*.swp
+.dockerignore
+
+# SSL certificates
+*.crt
+*.key
+default.conf
