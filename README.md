@@ -1,23 +1,21 @@
-# coachtechフリマ（フリマサービス）
+# coachtech 勤怠管理アプリ
 
 ## 環境構築
 
 1. `git clone git@github.com:kobasikibo/coachtech-flea-market.git`
-2. DockerDesktopアプリを立ち上げる
-3. `docker compose up -d --build`
+2. `docker compose up -d --build`
 
 **Laravel環境構築**
 1. `docker compose exec php sh`
 2. `composer -v`
-3. `composer create-project --prefer-dist laravel/laravel .`
-4. プロジェクトルートに「.env」ファイルを作成。
-5. .envに以下の環境変数を追加
+3. プロジェクトルートに「.env」ファイルを作成。
+4. .envに以下の環境変数を追加
 ``` text
 APP_NAME=Laravel
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
-APP_TIMEZONE=UTC
+APP_TIMEZONE=Asia/Tokyo
 APP_URL=http://localhost
 
 APP_LOCALE=en
@@ -69,11 +67,11 @@ AWS_USE_PATH_STYLE_ENDPOINT=false
 
 VITE_APP_NAME="${APP_NAME}"
 ```
-6. アプリケーションキーの作成
+5. アプリケーションキーの作成
 ``` sh
 php artisan key:generate
 ```
-7. マイグレーションとシーディングの実行
+6. マイグレーションとシーディングの実行
 ``` sh
 php artisan migrate --seed
 ```
