@@ -1,0 +1,16 @@
+h1 {
+    margin-top: 12%;
+}
+
+.form-group {
+    margin: 8% auto;
+}
+
+.form-group input {
+    padding: 0.8vw;
+    font-size: 2vw;
+}
+
+.btn-submit {
+    margin-top: 8%;
+}

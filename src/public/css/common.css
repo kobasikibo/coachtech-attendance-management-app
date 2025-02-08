@@ -1,0 +1,88 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: rgba(240, 239, 242, 1);
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 1);
+    font-size: 1.5vw;
+    font-weight: 700;
+    padding: 1.45%;
+}
+
+.header-inner {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-container {
+    display: flex;
+}
+
+.header-logo {
+    width: 25vw;
+}
+
+.header-logo img {
+    width: 100%;
+    height: auto;
+    padding-left: 1.65%;
+}
+
+.header-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.link-style-button {
+    background: none;
+    color: rgba(255, 255, 255, 1);
+    border: none;
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    padding-top: 4%;
+    padding-bottom: 4%;
+}
+
+.link-style-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 0.2vw;
+    padding-top: 4%;
+    padding-bottom: 4%;
+}
+
+.link-attendance,
+.link-attendance-list,
+.link-request {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 1);
+    padding: 1.5% 5%;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+}
+
+.link-attendance:hover,
+.link-attendance-list:hover,
+.link-request:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 0.2vw;
+}
+
+.link-request {
+    margin-right: 5%;
+}
+
+.error {
+    color: red;
+    font-size: 1vw;
+    font-weight: 400;
+    margin-top: 1%;
+}
