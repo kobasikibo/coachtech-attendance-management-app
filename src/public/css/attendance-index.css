@@ -4,18 +4,19 @@
     justify-content: space-between;
     width: 60%;
     margin: 0 auto;
+    font-weight: 700;
 }
 
 h1 {
     text-align: left;
-    font-size: 2.25vw;
-    font-weight: 700;
+    font-size: 1.875vw;
     margin-top: 10%;
     padding-left: 3%;
     border-left: 0.5vw solid #000;
 }
 
 .month-navigation {
+    font-size: 1.25vw;
     display: flex;
     justify-content: space-between; /* 前月、翌月を左右に広げる */
     width: 100%;
@@ -26,23 +27,34 @@ h1 {
 }
 
 .navigation-link {
+    font-size: 1vw;
     text-decoration: none;
     color: rgba(115, 115, 115, 1);
-    font-weight: 700;
     letter-spacing: 0.1em;
 }
 
+.selector-icon {
+    width: 1.2vw;
+}
+
+.calendar-icon {
+    width: 1.5vw;
+    height: 1.5vw;
+    margin-right: 0.2vw;
+    transform: translateY(-0.2vw);
+}
+
 table {
+    font-size: 1vw;
     width: 100%;
     background: rgba(255, 255, 255, 1);
     border-radius: 0.6vw;
     color: rgba(115, 115, 115, 1);
-    font-weight: 700;
     letter-spacing: 0.1em;
 }
 
 table th, table td {
-    padding: 10px 15px; /* セル内の余白を調整 */
+    padding: 0.5vw 4vw 0.5vw 2vw;
     text-align: center; /* テキストを中央寄せ */
     vertical-align: middle; /* ラベルと値を縦方向で中央揃え */
     border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
