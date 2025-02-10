@@ -62,4 +62,14 @@ class Attendance extends Model
     {
         return $this->clock_out ? Carbon::parse($this->clock_out)->format('H:i') : 'ー';
     }
+
+    public function getFormattedBreakStart()
+    {
+        return $this->break_start ? Carbon::parse($this->break_start)->format('H:i') : 'ー';
+    }
+
+    public function getFormattedBreakEnd()
+    {
+        return $this->break_end ? Carbon::parse($this->break_end)->format('H:i') : 'ー';
+    }
 }

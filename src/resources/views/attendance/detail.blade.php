@@ -1,12 +1,67 @@
 @extends('layouts.app')
 
-@section('content')
-    <h1>勤怠詳細</h1>
-    <p><strong>日付:</strong> {{ $attendance->created_at->format('Y-m-d') }}</p>
-    <p><strong>出勤時刻:</strong> {{ $attendance->clock_in ?? 'ー' }}</p>
-    <p><strong>退勤時刻:</strong> {{ $attendance->clock_out ?? 'ー' }}</p>
-    <p><strong>休憩開始:</strong> {{ $attendance->break_start ?? 'ー' }}</p>
-    <p><strong>休憩終了:</strong> {{ $attendance->break_end ?? 'ー' }}</p>
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/attendance-detail.css') }}" />
+@endsection
 
-    <a href="{{ route('attendance.index') }}">一覧に戻る</a>
+@section('content')
+<h1>勤怠詳細</h1>
+
+<form method="POST" action="{{ route('attendance.update', $attendance->id) }}">
+    @csrf
+    @method('PUT')
+
+    <div class="form-group">
+        <div class="form-row">
+            <div class="form-row-left">
+                <label class="form-label">名前</label>
+            </div>
+            <div class="form-row-right">
+                <p class="name">{{ $attendance->user->name ?? 'ー' }}</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-row-left">
+                <label class="form-label">日付</label>
+            </div>
+            <div class="form-row-right">
+                <input type="text" name="year" value="{{ $attendance->created_at->format('Y') }}" readonly class="form-control">
+                <input type="text" name="month_day" value="{{ $attendance->created_at->format('m-d') }}" readonly class="form-control">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-row-left">
+                <label class="form-label">出勤・退勤</label>
+            </div>
+            <div class="form-row-right">
+                <input type="text" name="clock_out" value="{{ $attendance->getFormattedClockOut() }}" class="form-control">
+                <input type="text" name="clock_in" value="{{ $attendance->getFormattedClockIn() }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-row-left">
+                <label class="form-label">休憩</label>
+            </div>
+            <div class="form-row-right">
+                <input type="text" name="break_start" value="{{ $attendance->getFormattedBreakStart() }}" class="form-control">
+                <input type="text" name="break_end" value="{{ $attendance->getFormattedBreakEnd() }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-row-large">
+            <div class="form-row-left">
+                <label class="form-label">備考</label>
+            </div>
+            <div class="form-row-right">
+                <textarea name="remarks" rows="3" class="form-control-large">{{ $attendance->remarks }}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn-submit">修正</button>
+</form>
+
 @endsection

@@ -36,4 +36,19 @@ class AttendanceController extends Controller
 
         return view('attendance.detail', compact('attendance'));
     }
+
+    public function update(Request $request, $id)
+    {
+        $attendance = Attendance::findOrFail($id);
+
+        $attendance->update([
+            'clock_in' => $request->clock_in,
+            'clock_out' => $request->clock_out,
+            'break_start' => $request->break_start,
+            'break_end' => $request->break_end,
+            'remarks' => $request->remarks,
+        ]);
+
+        return redirect()->route('attendance.detail', $id);
+    }
 }

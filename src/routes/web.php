@@ -29,4 +29,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/attendance/start-break', [WorkStatusController::class, 'startBreak'])->name('attendance.startBreak');
     Route::post('/attendance/end-break', [WorkStatusController::class, 'endBreak'])->name('attendance.endBreak');
     Route::post('/attendance/clock-out', [WorkStatusController::class, 'clockOut'])->name('attendance.clockOut');
+
+    Route::put('/attendances/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
 });
