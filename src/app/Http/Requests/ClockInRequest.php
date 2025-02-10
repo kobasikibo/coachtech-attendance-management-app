@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Attendance;
 
 class ClockInRequest extends FormRequest
 {
@@ -17,18 +16,8 @@ class ClockInRequest extends FormRequest
         return [];
     }
 
-    public function validateClockIn()
+    public function handleClockIn()
     {
-        $attendance = Attendance::where('user_id', auth()->id())->whereDate('created_at', today())->first();
-
-        if ($attendance) {
-            return redirect()->back()->with('error', '本日はすでに出勤しています。')->throwResponse();
-        }
-
-        return [
-            'user_id' => auth()->id(),
-            'status' => '出勤中',
-            'clock_in' => now(),
-        ];
+        app(\App\Services\AttendanceService::class)->clockIn();
     }
 }

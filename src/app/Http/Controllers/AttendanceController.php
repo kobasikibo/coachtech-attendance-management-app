@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Attendance;
-use App\Http\Requests\ClockInRequest;
-use App\Http\Requests\StartBreakRequest;
-use App\Http\Requests\EndBreakRequest;
-use App\Http\Requests\ClockOutRequest;
 
 class AttendanceController extends Controller
 {
@@ -16,34 +13,27 @@ class AttendanceController extends Controller
         return view('attendance.show', compact('attendance'));
     }
 
-    public function clockIn(ClockInRequest $request)
+    public function index(Request $request)
     {
-        Attendance::create($request->validateClockIn());
+        // 現在の年月を取得
+        $currentMonth = $request->query('month', now()->format('Y-m'));
 
-        return redirect()->back();
+        // 選択された月の勤怠情報を取得
+        $attendances = Attendance::where('user_id', auth()->id())
+            ->whereYear('created_at', substr($currentMonth, 0, 4))
+            ->whereMonth('created_at', substr($currentMonth, 5, 2))
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        return view('attendance.index', compact('attendances', 'currentMonth'));
     }
 
-    public function startBreak(StartBreakRequest $request)
+    public function detail($id)
     {
-        $attendance = Attendance::where('user_id', auth()->id())->whereDate('created_at', today())->first();
-        $attendance->update($request->validateStartBreak());
+        $attendance = Attendance::where('user_id', auth()->id())
+            ->where('id', $id)
+            ->firstOrFail();
 
-        return redirect()->back();
-    }
-
-    public function endBreak(EndBreakRequest $request)
-    {
-        $attendance = Attendance::where('user_id', auth()->id())->whereDate('created_at', today())->first();
-        $attendance->update($request->validateEndBreak());
-
-        return redirect()->back();
-    }
-
-    public function clockOut(ClockOutRequest $request)
-    {
-        $attendance = Attendance::where('user_id', auth()->id())->whereDate('created_at', today())->first();
-        $attendance->update($request->validateClockOut());
-
-        return redirect()->back()->with('success', 'お疲れ様でした。');
+        return view('attendance.detail', compact('attendance'));
     }
 }

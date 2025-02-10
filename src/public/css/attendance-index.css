@@ -1,0 +1,55 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: left;
+    font-size: 2.25vw;
+    font-weight: 700;
+    margin-top: 10%;
+    padding-left: 3%;
+    border-left: 0.5vw solid #000;
+}
+
+.month-navigation {
+    display: flex;
+    justify-content: space-between; /* 前月、翌月を左右に広げる */
+    width: 100%;
+    margin: 5% 0;
+    padding: 2%;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 0.6vw;
+}
+
+.navigation-link {
+    text-decoration: none;
+    color: rgba(115, 115, 115, 1);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+table {
+    width: 100%;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 0.6vw;
+    color: rgba(115, 115, 115, 1);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+table th, table td {
+    padding: 10px 15px; /* セル内の余白を調整 */
+    text-align: center; /* テキストを中央寄せ */
+    vertical-align: middle; /* ラベルと値を縦方向で中央揃え */
+    border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
+}
+
+table td a {
+    text-decoration: none;
+    color: inherit;
+    color: rgba(0, 0, 0, 1);
+}

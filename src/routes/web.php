@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Requests\CustomEmailVerificationRequest;
 use App\Http\Controllers\AttendanceController;
-
+use App\Http\Controllers\WorkStatusController;
 
 Route::post('/register', [RegisterController::class, 'register'])->name('auth.register');
 Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
@@ -22,8 +22,11 @@ Route::get('email/verify/{id}/{hash}', function (CustomEmailVerificationRequest 
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'show'])->name('attendance.show');
-    Route::post('/attendance/clock-in', [AttendanceController::class, 'clockIn'])->name('attendance.clockIn');
-    Route::post('/attendance/start-break', [AttendanceController::class, 'startBreak'])->name('attendance.startBreak');
-    Route::post('/attendance/end-break', [AttendanceController::class, 'endBreak'])->name('attendance.endBreak');
-    Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut'])->name('attendance.clockOut');
+    Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::get('/attendances/{id}', [AttendanceController::class, 'detail'])->name('attendance.detail');
+
+    Route::post('/attendance/clock-in', [WorkStatusController::class, 'clockIn'])->name('attendance.clockIn');
+    Route::post('/attendance/start-break', [WorkStatusController::class, 'startBreak'])->name('attendance.startBreak');
+    Route::post('/attendance/end-break', [WorkStatusController::class, 'endBreak'])->name('attendance.endBreak');
+    Route::post('/attendance/clock-out', [WorkStatusController::class, 'clockOut'])->name('attendance.clockOut');
 });

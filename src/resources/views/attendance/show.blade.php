@@ -1,18 +1,24 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/attendance.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/attendance-show.css') }}" />
 @endsection
 
 @section('content')
-<div class="status">{{ $attendance->status ?? '勤務外' }}</div>
+<div class="work-status">
+    @if ($attendance && $attendance->created_at->isToday())
+    {{ $attendance->status ?? '勤務外' }}
+    @else
+    勤務外
+    @endif
+</div>
 
 <div class="date">{{ now()->translatedFormat('Y年n月j日(D)') }}</div>
 
 <div class="current-time"></div>
 
 <div class="btn-container">
-    @if (!$attendance || $attendance->status === '勤務外')
+    @if (!$attendance || !$attendance->created_at->isToday() || $attendance->status === '勤務外')
     <form action="{{ route('attendance.clockIn') }}" method="POST">
         @csrf
         <button type="submit" class="btn-submit">出勤</button>

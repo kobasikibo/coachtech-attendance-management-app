@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Attendance;
 
 class ClockOutRequest extends FormRequest
 {
@@ -17,17 +16,8 @@ class ClockOutRequest extends FormRequest
         return [];
     }
 
-    public function validateClockOut()
+    public function handleClockOut()
     {
-        $attendance = Attendance::where('user_id', auth()->id())->whereDate('created_at', today())->first();
-
-        if (!$attendance || $attendance->status === '退勤済') {
-            return redirect()->back()->with('error', '退勤できません。')->throwResponse();
-        }
-
-        return [
-            'status' => '退勤済',
-            'clock_out' => now(),
-        ];
+        app(\App\Services\AttendanceService::class)->clockOut();
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Attendance;
 
 class StartBreakRequest extends FormRequest
 {
@@ -17,17 +16,8 @@ class StartBreakRequest extends FormRequest
         return [];
     }
 
-    public function validateStartBreak()
+    public function handleStartBreak()
     {
-        $attendance = Attendance::where('user_id', auth()->id())->whereDate('created_at', today())->first();
-
-        if (!$attendance || $attendance->status !== '出勤中') {
-            return redirect()->back()->with('error', '休憩開始できません。')->throwResponse();
-        }
-
-        return [
-            'status' => '休憩中',
-            'break_start' => now(),
-        ];
+        app(\App\Services\AttendanceService::class)->startBreak();
     }
 }

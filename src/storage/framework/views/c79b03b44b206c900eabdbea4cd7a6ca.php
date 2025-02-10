@@ -25,7 +25,7 @@
             <div class="header-container">
                 <div class="header-links">
                     <a href="<?php echo e(route('attendance.show')); ?>" class="link-attendance">勤怠</a>
-                    <a href="<?php echo e(route('attendance.show')); ?>" class="link-attendance-list">申請一覧</a>
+                    <a href="<?php echo e(route('attendance.index')); ?>" class="link-attendance-list">勤怠一覧</a>
                     <a href="<?php echo e(route('attendance.show')); ?>" class="link-request">申請</a>
                     <form action="<?php echo e(route('logout')); ?>" method="POST" class="logout-form">
                         <?php echo csrf_field(); ?>
