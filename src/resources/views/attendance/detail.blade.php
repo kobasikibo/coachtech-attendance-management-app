@@ -36,8 +36,10 @@
                 <label class="form-label">出勤・退勤</label>
             </div>
             <div class="form-row-right">
-                <input type="text" name="clock_out" value="{{ $attendance->getFormattedClockOut() }}" class="form-control">
-                <input type="text" name="clock_in" value="{{ $attendance->getFormattedClockIn() }}" class="form-control">
+                <input type="text" name="clock_in" value="{{ $attendance->getFormattedClockIn() }}"
+                class="form-control-left">
+                〜
+                <input type="text" name="clock_out" value="{{ $attendance->getFormattedClockOut() }}" class="form-control-right">
             </div>
         </div>
 
@@ -46,8 +48,9 @@
                 <label class="form-label">休憩</label>
             </div>
             <div class="form-row-right">
-                <input type="text" name="break_start" value="{{ $attendance->getFormattedBreakStart() }}" class="form-control">
-                <input type="text" name="break_end" value="{{ $attendance->getFormattedBreakEnd() }}" class="form-control">
+                <input type="text" name="break_start" value="{{ $attendance->getFormattedBreakStart() }}" class="form-control-left">
+                〜
+                <input type="text" name="break_end" value="{{ $attendance->getFormattedBreakEnd() }}" class="form-control-right">
             </div>
         </div>
 

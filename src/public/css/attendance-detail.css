@@ -67,9 +67,38 @@ h1 {
     color: rgba(0, 0, 0, 1);
     font-weight: 700;
     text-align: center;
-    padding: 0.3vw auto;
+    padding-top: 0.3vw;
+    padding-bottom: 0.3vw;
     width: 6vw;
     margin-right: 8vw;
+}
+
+.form-control-left {
+    border: 0.1vw solid rgba(225, 225, 225, 1);
+    border-radius: 0.2vw;
+    font-size: 1vw;
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 700;
+    text-align: center;
+    padding-top: 0.3vw;
+    padding-bottom: 0.3vw;
+    width: 6vw;
+    margin-right: 3.5vw;
+}
+
+.form-control-right {
+    border: 0.1vw solid rgba(225, 225, 225, 1);
+    border-radius: 0.2vw;
+    font-size: 1vw;
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 1);
+    font-weight: 700;
+    text-align: center;
+    padding-top: 0.3vw;
+    padding-bottom: 0.3vw;
+    width: 6vw;
+    margin-left: 3.5vw;
 }
 
 .form-control-large {
