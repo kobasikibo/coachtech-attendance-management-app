@@ -26,8 +26,8 @@
                 <label class="form-label">日付</label>
             </div>
             <div class="form-row-right">
-                <input type="text" name="year" value="{{ $attendance->created_at->format('Y') }}" readonly class="form-control">
-                <input type="text" name="month_day" value="{{ $attendance->created_at->format('m-d') }}" readonly class="form-control">
+                <input type="text" name="year" value="{{ $attendance->getYearFromClockInAttribute() }}" readonly class="form-control">
+                <input type="text" name="month_day" value="{{ $attendance->getMonthDayFromClockInAttribute() }}" readonly class="form-control">
             </div>
         </div>
 

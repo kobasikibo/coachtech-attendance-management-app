@@ -72,4 +72,14 @@ class Attendance extends Model
     {
         return $this->break_end ? Carbon::parse($this->break_end)->format('H:i') : 'ー';
     }
+
+    public function getYearFromClockInAttribute()
+    {
+        return Carbon::parse($this->clock_in)->format('Y年');
+    }
+
+    public function getMonthDayFromClockInAttribute()
+    {
+        return Carbon::parse($this->clock_in)->format('n月j日');
+    }
 }

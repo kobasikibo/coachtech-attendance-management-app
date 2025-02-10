@@ -24,8 +24,8 @@
                 <label class="form-label">日付</label>
             </div>
             <div class="form-row-right">
-                <input type="text" name="year" value="<?php echo e($attendance->created_at->format('Y')); ?>" readonly class="form-control">
-                <input type="text" name="month_day" value="<?php echo e($attendance->created_at->format('m-d')); ?>" readonly class="form-control">
+                <input type="text" name="year" value="<?php echo e($attendance->getYearFromClockInAttribute()); ?>" readonly class="form-control">
+                <input type="text" name="month_day" value="<?php echo e($attendance->getMonthDayFromClockInAttribute()); ?>" readonly class="form-control">
             </div>
         </div>
 
