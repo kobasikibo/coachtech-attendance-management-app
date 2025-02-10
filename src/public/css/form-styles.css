@@ -63,7 +63,7 @@ h1 {
 }
 
 .btn-submit:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 .auth-link {
@@ -78,5 +78,5 @@ h1 {
 }
 
 .auth-link:hover {
-    color: rgba(0, 115, 204, 0.8);
+    color: rgba(0, 115, 204, 0.6);
 }

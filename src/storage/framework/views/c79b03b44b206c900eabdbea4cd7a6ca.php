@@ -21,7 +21,7 @@
                 </a>
             </div>
 
-            <?php if(!in_array(request()->route()->getName(), ['login', 'register'])): ?>
+            <?php if(!in_array(request()->route()->getName(), ['login', 'register', 'admin.login'])): ?>
             <div class="header-container">
                 <div class="header-links">
                     <a href="<?php echo e(route('attendance.show')); ?>" class="link-attendance">勤怠</a>

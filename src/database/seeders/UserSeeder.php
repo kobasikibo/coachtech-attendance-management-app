@@ -4,18 +4,17 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Admin;
 
 class UserSeeder extends Seeder
 {
     public function run()
     {
-        // 管理者を手動で作成
-        User::create([
+        Admin::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
             'password' => bcrypt('adminpass'),
             'email_verified_at' => now(),
-            'role' => 'admin',
         ]);
 
         User::factory(10)->create();

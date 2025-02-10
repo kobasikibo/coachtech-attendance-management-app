@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Requests\CustomEmailVerificationRequest;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\WorkStatusController;
+use App\Http\Controllers\Admin\AdminAuthController;
+
 
 Route::post('/register', [RegisterController::class, 'register'])->name('auth.register');
 Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
@@ -32,3 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::put('/attendances/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
 });
+
+Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.post');
+Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');

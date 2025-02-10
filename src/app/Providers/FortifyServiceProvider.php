@@ -7,9 +7,11 @@ use Illuminate\Support\ServiceProvider;
 use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
 use App\Actions\Fortify\CustomLogoutResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
+use Illuminate\Support\Facades\Auth;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -19,20 +21,34 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.register');
         });
 
-        Fortify::loginView(function () {
+        Fortify::createUsersUsing(CreateNewUser::class);
+
+
+        Fortify::loginView(function (Request $request) {
+            if ($request->is('admin/*')) {
+                return view('auth.admin-login');
+            }
             return view('auth.login');
         });
 
-        Fortify::createUsersUsing(CreateNewUser::class);
-
         Fortify::authenticateUsing(function (Request $request) {
-            $user = User::where('email', $request->email)->first();
+            if ($request->is('admin/*')) {
+                $admin = \App\Models\Admin::where('email', $request->email)->first();
 
-            if ($user && Hash::check($request->password, $user->password)) {
-                return $user;
+                if ($admin && Hash::check($request->password, $admin->password)) {
+                    return $admin;
+                }
+            } else {
+                $user = \App\Models\User::where('email', $request->email)->first();
+
+                if ($user && Hash::check($request->password, $user->password)) {
+                    return $user;
+                }
             }
+            return null;
         });
 
+        // ログアウトのカスタムレスポンス（共通）
         $this->app->singleton(LogoutResponse::class, CustomLogoutResponse::class);
     }
 }

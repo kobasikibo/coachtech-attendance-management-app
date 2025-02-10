@@ -21,7 +21,7 @@
                 </a>
             </div>
 
-            @if (!in_array(request()->route()->getName(), ['login', 'register']))
+            @if (!in_array(request()->route()->getName(), ['login', 'register', 'admin.login']))
             <div class="header-container">
                 <div class="header-links">
                     <a href="{{ route('attendance.show') }}" class="link-attendance">勤怠</a>
