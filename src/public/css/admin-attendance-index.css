@@ -1,0 +1,17 @@
+.date-navigation {
+    font-size: 1.25vw;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 5% 0;
+    padding: 2%;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 0.6vw;
+}
+
+.placeholder {
+    opacity: 0;
+    pointer-events: none;
+    width: 3.8vw;
+    display: inline-block;
+}

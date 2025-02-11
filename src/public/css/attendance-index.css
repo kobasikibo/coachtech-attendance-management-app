@@ -18,7 +18,7 @@ h1 {
 .month-navigation {
     font-size: 1.25vw;
     display: flex;
-    justify-content: space-between; /* 前月、翌月を左右に広げる */
+    justify-content: space-between;
     width: 100%;
     margin: 5% 0;
     padding: 2%;
@@ -44,7 +44,7 @@ h1 {
     transform: translateY(-0.2vw);
 }
 
-table {
+.attendance-table {
     font-size: 1vw;
     width: 100%;
     background: rgba(255, 255, 255, 1);
@@ -53,15 +53,15 @@ table {
     letter-spacing: 0.1em;
 }
 
-table th, table td {
+.table-header,
+.table-cell {
     padding: 0.5vw 4vw 0.5vw 2vw;
-    text-align: center; /* テキストを中央寄せ */
-    vertical-align: middle; /* ラベルと値を縦方向で中央揃え */
+    text-align: center;
+    vertical-align: middle;
     border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
 }
 
-table td a {
+.table-link {
     text-decoration: none;
-    color: inherit;
     color: rgba(0, 0, 0, 1);
 }
