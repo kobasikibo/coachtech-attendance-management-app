@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    public function map()
+    {
+        $this->mapWebRoutes();
+
+        $this->mapAdminRoutes();
+    }
+
     public function boot()
     {
         $this->routes(function () {

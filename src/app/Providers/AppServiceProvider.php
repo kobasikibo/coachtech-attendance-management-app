@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Admin;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -15,11 +17,11 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
+    public function boot()
     {
-        //
+        Auth::provider('admins', function ($app, array $config) {
+            return new \Illuminate\Auth\EloquentUserProvider($app['hash'], Admin::class);
+        });
     }
 }
+

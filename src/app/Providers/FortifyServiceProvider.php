@@ -33,15 +33,17 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::authenticateUsing(function (Request $request) {
             if ($request->is('admin/*')) {
-                $admin = \App\Models\Admin::where('email', $request->email)->first();
+                $admin = Admin::where('email', $request->email)->first();
 
                 if ($admin && Hash::check($request->password, $admin->password)) {
+                    Auth::guard('admin')->login($admin);
                     return $admin;
                 }
             } else {
-                $user = \App\Models\User::where('email', $request->email)->first();
+                $user = User::where('email', $request->email)->first();
 
                 if ($user && Hash::check($request->password, $user->password)) {
+                    Auth::guard('web')->login($user);
                     return $user;
                 }
             }
