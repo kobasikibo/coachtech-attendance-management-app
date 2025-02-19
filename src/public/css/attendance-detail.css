@@ -25,23 +25,34 @@ h1 {
     letter-spacing: 0.1em;
 }
 
-.form-label {
-    color: rgba(115, 115, 115, 1);
+.form-name,
+.form-date {
+    display: flex;
+    padding: 1.8vw 1.6vw;
+    border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
+}
+
+.form-clock,
+.form-break {
+    flex-direction: column;
+    padding: 1.8vw 1.6vw;
+    border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
+}
+
+.form-remarks {
+    flex-direction: column;
+    padding: 0.8vw 1.6vw;
 }
 
 .form-row {
     display: flex;
-    border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
-    padding: 1.8vw 1.6vw;
 }
 
 .form-row-large {
     display: flex;
-    border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
-    padding: 0.8vw 1.6vw;
 }
 
-.form-row-left {
+.form-label-container {
     display: flex;
     flex-direction: column;
     width: 40%;
@@ -49,55 +60,31 @@ h1 {
     justify-content: center;
 }
 
-.form-row-right {
+.form-label {
+    color: rgba(115, 115, 115, 1);
+}
+
+.form-input-container {
     display: flex;
     flex-direction: row;
     width: 60%;
 }
 
-.name {
-    margin-left: 1.2vw;
-}
-
-.form-control {
+.form-control-left,
+.form-control-right {
     border: 0.1vw solid rgba(225, 225, 225, 1);
     border-radius: 0.2vw;
-    font-size: 1vw;
-    letter-spacing: 0.1em;
     color: rgba(0, 0, 0, 1);
-    font-weight: 700;
     text-align: center;
-    padding-top: 0.3vw;
-    padding-bottom: 0.3vw;
+    padding: 0.2vw 0.5vw;
     width: 6vw;
-    margin-right: 8vw;
 }
 
 .form-control-left {
-    border: 0.1vw solid rgba(225, 225, 225, 1);
-    border-radius: 0.2vw;
-    font-size: 1vw;
-    letter-spacing: 0.1em;
-    color: rgba(0, 0, 0, 1);
-    font-weight: 700;
-    text-align: center;
-    padding-top: 0.3vw;
-    padding-bottom: 0.3vw;
-    width: 6vw;
     margin-right: 3.5vw;
 }
 
 .form-control-right {
-    border: 0.1vw solid rgba(225, 225, 225, 1);
-    border-radius: 0.2vw;
-    font-size: 1vw;
-    letter-spacing: 0.1em;
-    color: rgba(0, 0, 0, 1);
-    font-weight: 700;
-    text-align: center;
-    padding-top: 0.3vw;
-    padding-bottom: 0.3vw;
-    width: 6vw;
     margin-left: 3.5vw;
 }
 
@@ -105,17 +92,31 @@ h1 {
     border: 0.1vw solid rgba(225, 225, 225, 1);
     border-radius: 0.2vw;
     font-size: 0.875vw;
-    letter-spacing: 0.1em;
     color: rgba(0, 0, 0, 1);
-    font-weight: 700;
     padding: 0.3vw 0.5vw;
-    width: 20vw;
+    width: 21.3vw;
     margin-right: 6vw;
+    resize: none;
+}
+
+.name,
+.attendance-year {
+    margin-left: 1.5vw;
+}
+
+.attendance-date {
+    margin-left: 10.8vw;
+}
+
+.error {
+    margin-left: 3vw;
+    margin-top: 1vw;
 }
 
 .btn-submit {
     width: 14%;
     margin-top: 12%;
+    margin-bottom: 10%;
     padding: 0.6vw;
     background-color: rgba(0, 0, 0, 1);
     color: white;
@@ -126,7 +127,7 @@ h1 {
     border-radius: 0.3vw;
     cursor: pointer;
     transition: background-color 0.3s;
-    display: block; /* ボタンをブロック要素にして */
+    display: block;
     margin-left: auto;
 }
 

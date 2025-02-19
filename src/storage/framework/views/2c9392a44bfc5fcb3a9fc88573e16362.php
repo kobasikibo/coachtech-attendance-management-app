@@ -22,26 +22,28 @@
     </div>
 </div>
 
-<table>
+<table class="attendance-table">
     <thead>
         <tr>
-            <th>日付</th>
-            <th>出勤</th>
-            <th>退勤</th>
-            <th>休憩</th>
-            <th>合計</th>
-            <th>詳細</th>
+            <th class="table-header">日付</th>
+            <th class="table-header">出勤</th>
+            <th class="table-header">退勤</th>
+            <th class="table-header">休憩</th>
+            <th class="table-header">合計</th>
+            <th class="table-header">詳細</th>
         </tr>
     </thead>
     <tbody>
         <?php $__currentLoopData = $attendances; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attendance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
-            <td><?php echo e($attendance->getFormattedDate()); ?></td>
-            <td><?php echo e($attendance->getFormattedClockIn()); ?></td>
-            <td><?php echo e($attendance->getFormattedClockOut()); ?></td>
-            <td><?php echo e($attendance->getFormattedBreakTime()); ?></td>
-            <td><?php echo e($attendance->getWorkTime()); ?></td>
-            <td><a href="<?php echo e(route('attendance.detail', $attendance->id)); ?>">詳細</a></td>
+            <td class="table-cell"><?php echo e($attendance->getFormattedDate()); ?></td>
+            <td class="table-cell"><?php echo e($attendance->getFormattedClockIn()); ?></td>
+            <td class="table-cell"><?php echo e($attendance->getFormattedClockOut()); ?></td>
+            <td class="table-cell"><?php echo e($attendance->getFormattedBreakTime()); ?></td>
+            <td class="table-cell"><?php echo e($attendance->getWorkTime()); ?></td>
+            <td class="table-cell">
+                <a class="table-link" href="<?php echo e(route('attendance.detail', $attendance->id)); ?>">詳細</a>
+            </td>
         </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </tbody>

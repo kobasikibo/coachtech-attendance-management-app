@@ -30,13 +30,13 @@
 <table class="attendance-table">
     <thead>
         <tr>
-            <th class=" table-header">名前</th>
-    <th class="table-header">出勤</th>
-    <th class="table-header">退勤</th>
-    <th class="table-header">休憩</th>
-    <th class="table-header">合計</th>
-    <th class="table-header">詳細</th>
-    </tr>
+            <th class="table-header">名前</th>
+            <th class="table-header">出勤</th>
+            <th class="table-header">退勤</th>
+            <th class="table-header">休憩</th>
+            <th class="table-header">合計</th>
+            <th class="table-header">詳細</th>
+        </tr>
     </thead>
     <tbody>
         <?php $__currentLoopData = $attendances; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attendance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

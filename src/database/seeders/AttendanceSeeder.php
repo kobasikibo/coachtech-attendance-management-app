@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Attendance;
+use App\Models\BreakModel;
 use Carbon\Carbon;
 
 class AttendanceSeeder extends Seeder
@@ -17,16 +18,21 @@ class AttendanceSeeder extends Seeder
 
             while ($attendanceCount < 20) {
                 if (!$currentDate->isWeekend()) {
-                    Attendance::factory()->create([
+                    $attendance = Attendance::factory()->create([
                         'user_id' => $user->id,
                         'clock_in' => $currentDate->copy()->setTime(9, 0),
                         'clock_out' => $currentDate->copy()->setTime(18, 0),
+                    ]);
+
+                    BreakModel::factory()->create([
+                        'attendance_id' => $attendance->id,
                         'break_start' => $currentDate->copy()->setTime(12, 0),
                         'break_end' => $currentDate->copy()->setTime(13, 0),
                     ]);
+
                     $attendanceCount++;
                 }
-                $currentDate->addDay(); // 次の日に進める
+                $currentDate->addDay();
             }
         });
     }

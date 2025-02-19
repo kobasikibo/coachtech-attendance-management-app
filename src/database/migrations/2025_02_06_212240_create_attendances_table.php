@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->enum('status', ['勤務外', '出勤中', '休憩中', '退勤済'])->default('勤務外');
+            $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('approved');
             $table->timestamp('clock_in')->nullable();
             $table->timestamp('clock_out')->nullable();
-            $table->timestamp('break_start')->nullable();
-            $table->timestamp('break_end')->nullable();
+            $table->string('remarks')->nullable();
             $table->timestamps();
         });
     }

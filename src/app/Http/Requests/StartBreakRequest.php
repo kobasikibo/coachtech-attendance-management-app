@@ -2,22 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class StartBreakRequest extends FormRequest
+class StartBreakRequest extends WorkStatusRequest
 {
-    public function authorize(): bool
+    public function handle()
     {
-        return auth()->check();
-    }
-
-    public function rules(): array
-    {
-        return [];
-    }
-
-    public function handleStartBreak()
-    {
-        app(\App\Services\AttendanceService::class)->startBreak();
+        $this->attendanceService->startBreak();
     }
 }

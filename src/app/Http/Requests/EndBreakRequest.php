@@ -2,22 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class EndBreakRequest extends FormRequest
+class EndBreakRequest extends WorkStatusRequest
 {
-    public function authorize(): bool
+    public function handle()
     {
-        return auth()->check();
-    }
-
-    public function rules(): array
-    {
-        return [];
-    }
-
-    public function handleEndBreak()
-    {
-        app(\App\Services\AttendanceService::class)->endBreak();
+        $this->attendanceService->endBreak();
     }
 }

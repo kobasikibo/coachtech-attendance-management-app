@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Attendance;
+use App\Models\BreakModel;
 use Illuminate\Support\Facades\Auth;
 
 class AttendanceService
@@ -17,7 +18,7 @@ class AttendanceService
 
         return Attendance::create([
             'user_id' => Auth::id(),
-            'status' => '出勤中',
+            'status' => Attendance::STATUS_CLOCKED_IN,
             'clock_in' => now(),
         ]);
     }
@@ -26,12 +27,12 @@ class AttendanceService
     {
         $attendance = Attendance::where('user_id', Auth::id())->whereDate('created_at', today())->first();
 
-        if (!$attendance || $attendance->status === '退勤済') {
+        if (!$attendance || $attendance->status === Attendance::STATUS_CLOCKED_OUT) {
             throw new \Exception('退勤できません。');
         }
 
         $attendance->update([
-            'status' => '退勤済',
+            'status' => Attendance::STATUS_CLOCKED_OUT,
             'clock_out' => now(),
         ]);
     }
@@ -40,13 +41,17 @@ class AttendanceService
     {
         $attendance = Attendance::where('user_id', Auth::id())->whereDate('created_at', today())->first();
 
-        if (!$attendance || $attendance->status !== '出勤中') {
+        if (!$attendance || $attendance->status !== Attendance::STATUS_CLOCKED_IN) {
             throw new \Exception('休憩開始できません。');
         }
 
-        $attendance->update([
-            'status' => '休憩中',
+        BreakModel::create([
+            'attendance_id' => $attendance->id,
             'break_start' => now(),
+        ]);
+
+        $attendance->update([
+            'status' => Attendance::STATUS_ON_BREAK,
         ]);
     }
 
@@ -54,13 +59,22 @@ class AttendanceService
     {
         $attendance = Attendance::where('user_id', Auth::id())->whereDate('created_at', today())->first();
 
-        if (!$attendance || $attendance->status !== '休憩中') {
+        if (!$attendance || $attendance->status !== Attendance::STATUS_ON_BREAK) {
             throw new \Exception('休憩終了できません。');
         }
 
-        $attendance->update([
-            'status' => '出勤中',
+        $lastBreak = BreakModel::where('attendance_id', $attendance->id)->latest()->first();
+
+        if (!$lastBreak || $lastBreak->break_end) {
+            throw new \Exception('休憩開始が記録されていません。');
+        }
+
+        $lastBreak->update([
             'break_end' => now(),
+        ]);
+
+        $attendance->update([
+            'status' => Attendance::STATUS_CLOCKED_IN,
         ]);
     }
 }

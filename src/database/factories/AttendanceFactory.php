@@ -14,8 +14,8 @@ class AttendanceFactory extends Factory
         return [
             'clock_in' => $this->faker->dateTimeThisYear(),
             'clock_out' => $this->faker->dateTimeThisYear(),
-            'break_start' => $this->faker->dateTimeThisYear(),
-            'break_end' => $this->faker->dateTimeThisYear(),
+            'status' => Attendance::STATUS_CLOCKED_OUT,
+            'approval_status' => Attendance::APPROVAL_APPROVED,
         ];
     }
 }

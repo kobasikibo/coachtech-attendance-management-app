@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\BreakModel;
+use App\Http\Requests\AttendanceRequest;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -30,25 +33,62 @@ class AttendanceController extends Controller
 
     public function detail($id)
     {
-        $attendance = Attendance::where('user_id', auth()->id())
-            ->where('id', $id)
-            ->firstOrFail();
-
-        return view('attendance.detail', compact('attendance'));
-    }
-
-    public function update(Request $request, $id)
-    {
         $attendance = Attendance::findOrFail($id);
 
-        $attendance->update([
-            'clock_in' => $request->clock_in,
-            'clock_out' => $request->clock_out,
-            'break_start' => $request->break_start,
-            'break_end' => $request->break_end,
-            'remarks' => $request->remarks,
-        ]);
+        $formattedBreaks = $attendance->getFormattedBreakTimes();
+
+        return view('attendance.detail', compact('attendance', 'formattedBreaks'));
+    }
+
+    public function update(AttendanceRequest $request, $id)
+    {
+        $attendance = Attendance::findOrFail($id);
+        $date = $request->date;
+
+        // 勤怠情報を更新
+        $this->updateAttendance($attendance, $date, $request);
+
+        // 休憩情報を更新
+        $this->updateBreaks($attendance, $request);
 
         return redirect()->route('attendance.detail', $id);
+    }
+
+    private function updateAttendance($attendance, $date, $request)
+    {
+        $attendance->update([
+            'clock_in' => Carbon::parse("$date {$request->clock_in}"),
+            'clock_out' => Carbon::parse("$date {$request->clock_out}"),
+            'remarks' => $request->remarks,
+            'approval_status' => Attendance::APPROVAL_PENDING,
+        ]);
+    }
+
+    private function updateBreaks($attendance, $request)
+    {
+        foreach ($request->breaks as $key => $breakData) {
+            $break = BreakModel::where('attendance_id', $attendance->id)
+                        ->where('id', $key)
+                        ->first();
+
+            if ($break) {
+                $breakStartTime = $attendance->clock_in->toDateString() . ' ' . $breakData['break_start'];
+                $breakEndTime = $attendance->clock_in->toDateString() . ' ' . $breakData['break_end'];
+
+                $breakStart = Carbon::parse($breakStartTime);
+                $breakEnd = Carbon::parse($breakEndTime);
+
+                $break->update([
+                    'break_start' => $breakStart,
+                    'break_end'   => $breakEnd,
+                ]);
+            } else {
+                BreakModel::create([
+                    'attendance_id' => $attendance->id,
+                    'break_start'    => Carbon::parse($attendance->clock_in->toDateString() . ' ' . $breakData['break_start']),
+                    'break_end'      => Carbon::parse($attendance->clock_in->toDateString() . ' ' . $breakData['break_end']),
+                ]);
+            }
+        }
     }
 }

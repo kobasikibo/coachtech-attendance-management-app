@@ -12,7 +12,7 @@ class WorkStatusController extends Controller
     public function clockIn(ClockInRequest $request)
     {
         try {
-            $request->handleClockIn();
+            $request->handle();
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -22,7 +22,7 @@ class WorkStatusController extends Controller
     public function clockOut(ClockOutRequest $request)
     {
         try {
-            $request->handleClockOut();
+            $request->handle();
             return redirect()->back()->with('success', 'お疲れ様でした。');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -32,7 +32,7 @@ class WorkStatusController extends Controller
     public function startBreak(StartBreakRequest $request)
     {
         try {
-            $request->handleStartBreak();
+            $request->handle();
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
@@ -42,7 +42,7 @@ class WorkStatusController extends Controller
     public function endBreak(EndBreakRequest $request)
     {
         try {
-            $request->handleEndBreak();
+            $request->handle();
             return redirect()->back();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

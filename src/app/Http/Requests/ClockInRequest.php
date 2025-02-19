@@ -2,22 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class ClockInRequest extends FormRequest
+class ClockInRequest extends WorkStatusRequest
 {
-    public function authorize(): bool
+    public function handle()
     {
-        return auth()->check();
-    }
-
-    public function rules(): array
-    {
-        return [];
-    }
-
-    public function handleClockIn()
-    {
-        app(\App\Services\AttendanceService::class)->clockIn();
+        $this->attendanceService->clockIn();
     }
 }
