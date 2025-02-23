@@ -8,7 +8,7 @@
 <div class="month-navigation">
     <div class="navigation-item">
         <img src="<?php echo e(asset('images/icons/selector-left.png')); ?>" alt="前月へ移動" class="selector-icon">
-        <a class="navigation-link" href=" <?php echo e(route('attendance.index', ['month' => \Carbon\Carbon::parse($currentMonth)->subMonth()->format('Y-m')])); ?>">前月</a>
+        <a class="navigation-link" href="<?php echo e(route('attendance.index', ['month' => $previousMonth])); ?>">前月</a>
     </div>
 
     <div class="navigation-item">
@@ -16,8 +16,8 @@
         <span class="navigation-month"><?php echo e(\Carbon\Carbon::parse($currentMonth)->format('Y/m')); ?></span>
     </div>
 
-    <div class="navigation-item">
-        <a class="navigation-link" href="<?php echo e(route('attendance.index', ['month' => \Carbon\Carbon::parse($currentMonth)->addMonth()->format('Y-m')])); ?>">翌月</a>
+    <div class="navigation-item <?php echo e($currentMonth->format('Y-m') ==  now()->format('Y-m') ? 'invisible' : ''); ?>">
+        <a class="navigation-link" href="<?php echo e(route('attendance.index', ['month' => $nextMonth])); ?>">翌月</a>
         <img src="<?php echo e(asset('images/icons/selector-right.png')); ?>" alt="翌月へ移動" class="selector-icon">
     </div>
 </div>
@@ -34,15 +34,21 @@
         </tr>
     </thead>
     <tbody>
-        <?php $__currentLoopData = $attendances; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attendance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php $__currentLoopData = $dates; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
-            <td class="table-cell"><?php echo e($attendance->getFormattedDate()); ?></td>
-            <td class="table-cell"><?php echo e($attendance->getFormattedClockIn()); ?></td>
-            <td class="table-cell"><?php echo e($attendance->getFormattedClockOut()); ?></td>
-            <td class="table-cell"><?php echo e($attendance->getFormattedBreakTime()); ?></td>
-            <td class="table-cell"><?php echo e($attendance->getWorkTime()); ?></td>
+            <td class="table-cell"><?php echo e(\Carbon\Carbon::parse($date)->translatedFormat('m/d(D)')); ?></td>
+
+            <?php
+            $attendanceForDate = $attendances->firstWhere('date', $date);
+            ?>
+            <td class="table-cell"><?php echo e($attendanceForDate ? $attendanceService->formatClockIn($attendanceForDate) : ''); ?></td>
+            <td class="table-cell"><?php echo e($attendanceForDate ? $attendanceService->formatClockOut($attendanceForDate) : ''); ?></td>
+            <td class="table-cell"><?php echo e($attendanceForDate ? $breakService->formatBreakTime($attendanceForDate) : ''); ?></td>
+            <td class="table-cell"><?php echo e($attendanceForDate ? $attendanceService->formatWorkTime($attendanceForDate) : ''); ?></td>
             <td class="table-cell">
-                <a class="table-link" href="<?php echo e(route('attendance.detail', $attendance->id)); ?>">詳細</a>
+                <?php if($attendanceForDate): ?>
+                <a class="table-link" href="<?php echo e(route('attendance.detail', $attendanceForDate->id)); ?>">詳細</a>
+                <?php endif; ?>
             </td>
         </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

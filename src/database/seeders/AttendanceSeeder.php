@@ -20,6 +20,7 @@ class AttendanceSeeder extends Seeder
                 if (!$currentDate->isWeekend()) {
                     $attendance = Attendance::factory()->create([
                         'user_id' => $user->id,
+                        'date' => $currentDate->toDateString(),
                         'clock_in' => $currentDate->copy()->setTime(9, 0),
                         'clock_out' => $currentDate->copy()->setTime(18, 0),
                     ]);

@@ -3,78 +3,77 @@
 namespace App\Services;
 
 use App\Models\Attendance;
-use App\Models\BreakModel;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Services\BreakService;
 
 class AttendanceService
 {
-    public function clockIn()
+    protected $breakService;
+
+    public function __construct(BreakService $breakService)
     {
-        $attendance = Attendance::where('user_id', Auth::id())->whereDate('created_at', today())->first();
-
-        if ($attendance) {
-            throw new \Exception('本日はすでに出勤しています。');
-        }
-
-        return Attendance::create([
-            'user_id' => Auth::id(),
-            'status' => Attendance::STATUS_CLOCKED_IN,
-            'clock_in' => now(),
-        ]);
+        $this->breakService = $breakService;
     }
 
-    public function clockOut()
+    public function formatDate(Attendance $attendance)
     {
-        $attendance = Attendance::where('user_id', Auth::id())->whereDate('created_at', today())->first();
-
-        if (!$attendance || $attendance->status === Attendance::STATUS_CLOCKED_OUT) {
-            throw new \Exception('退勤できません。');
-        }
-
-        $attendance->update([
-            'status' => Attendance::STATUS_CLOCKED_OUT,
-            'clock_out' => now(),
-        ]);
+        return Carbon::parse($attendance->date)->translatedFormat('m/d(D)');
     }
 
-    public function startBreak()
+    public function formatClockIn(Attendance $attendance)
     {
-        $attendance = Attendance::where('user_id', Auth::id())->whereDate('created_at', today())->first();
-
-        if (!$attendance || $attendance->status !== Attendance::STATUS_CLOCKED_IN) {
-            throw new \Exception('休憩開始できません。');
-        }
-
-        BreakModel::create([
-            'attendance_id' => $attendance->id,
-            'break_start' => now(),
-        ]);
-
-        $attendance->update([
-            'status' => Attendance::STATUS_ON_BREAK,
-        ]);
+        return $attendance->clock_in ? Carbon::parse($attendance->clock_in)->format('H:i') : '';
     }
 
-    public function endBreak()
+    public function formatClockOut(Attendance $attendance)
     {
-        $attendance = Attendance::where('user_id', Auth::id())->whereDate('created_at', today())->first();
+        return $attendance->clock_out ? Carbon::parse($attendance->clock_out)->format('H:i') : '';
+    }
 
-        if (!$attendance || $attendance->status !== Attendance::STATUS_ON_BREAK) {
-            throw new \Exception('休憩終了できません。');
+    public function formatWorkTime(Attendance $attendance)
+    {
+        if ($attendance->clock_in && $attendance->clock_out) {
+            $workMinutes = Carbon::parse($attendance->clock_in)->diffInMinutes(Carbon::parse($attendance->clock_out));
+            $actualWorkMinutes = $workMinutes - $this->breakService->calculateTotalBreakTime($attendance);
+
+            $workHours = floor($actualWorkMinutes / 60);
+            $workMinutes = $actualWorkMinutes % 60;
+
+            return intval($workHours) . ':' . str_pad(intval($workMinutes), 2, '0', STR_PAD_LEFT);
+        }
+        return '';
+    }
+
+    public function getYearFromClockIn(Attendance $attendance)
+    {
+        return Carbon::parse($attendance->clock_in)->format('Y年');
+    }
+
+    public function getMonthDayFromClockIn(Attendance $attendance)
+    {
+        return Carbon::parse($attendance->clock_in)->format('n月j日');
+    }
+
+    public function getAttendanceForToday($userId)
+    {
+        return Attendance::forToday()->byUser($userId)->first();
+    }
+
+    public function isAttendanceToday($attendance)
+    {
+        return $attendance && Carbon::parse($attendance->date)->isToday();
+    }
+
+    public function getAllDatesOfMonth($month)
+    {
+        $startOfMonth = Carbon::parse($month)->startOfMonth();
+        $endOfMonth = Carbon::parse($month)->endOfMonth();
+
+        $dates = [];
+        for ($date = $startOfMonth; $date <= $endOfMonth; $date->addDay()) {
+            $dates[] = $date->format('Y-m-d');
         }
 
-        $lastBreak = BreakModel::where('attendance_id', $attendance->id)->latest()->first();
-
-        if (!$lastBreak || $lastBreak->break_end) {
-            throw new \Exception('休憩開始が記録されていません。');
-        }
-
-        $lastBreak->update([
-            'break_end' => now(),
-        ]);
-
-        $attendance->update([
-            'status' => Attendance::STATUS_CLOCKED_IN,
-        ]);
+        return $dates;
     }
 }

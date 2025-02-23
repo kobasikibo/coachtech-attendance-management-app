@@ -3,13 +3,10 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('content'); ?>
-<div class="work-status">
-    <?php if($attendance && $attendance->created_at->isToday()): ?>
-    <?php echo e($attendance->status ?? '勤務外'); ?>
 
-    <?php else: ?>
-    勤務外
-    <?php endif; ?>
+<div class="work-status">
+    <?php echo e($isAttendanceToday ? $attendance->status : '勤務外'); ?>
+
 </div>
 
 <div class="date"><?php echo e(now()->translatedFormat('Y年n月j日(D)')); ?></div>
@@ -17,7 +14,7 @@
 <div class="current-time"></div>
 
 <div class="btn-container">
-    <?php if(!$attendance || !$attendance->created_at->isToday() || $attendance->status === '勤務外'): ?>
+    <?php if(!$attendance || !$isAttendanceToday || $attendance->status === '勤務外'): ?>
     <form action="<?php echo e(route('attendance.clockIn')); ?>" method="POST">
         <?php echo csrf_field(); ?>
         <button type="submit" class="btn-submit">出勤</button>

@@ -2,48 +2,77 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakModel;
+use App\Services\AttendanceService;
+use App\Services\BreakService;
+use Illuminate\Http\Request;
 use App\Http\Requests\AttendanceRequest;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
+    protected $attendanceService;
+    protected $breakService;
+
+    public function __construct(AttendanceService $attendanceService, BreakService $breakService)
+    {
+        $this->attendanceService = $attendanceService;
+        $this->breakService = $breakService;
+    }
+
     public function show()
     {
-        $attendance = Attendance::where('user_id', auth()->id())->latest()->first();
-        return view('attendance.show', compact('attendance'));
+        $attendance = $this->attendanceService->getAttendanceForToday(Auth::id());
+        $isAttendanceToday = $this->attendanceService->isAttendanceToday($attendance);
+
+        return view('attendance.show', compact('attendance', 'isAttendanceToday'));
     }
 
     public function index(Request $request)
     {
-        // 現在の年月を取得
-        $currentMonth = $request->query('month', now()->format('Y-m'));
+        $currentMonth = Carbon::parse($request->query('month', now()->format('Y-m')));
 
-        // 選択された月の勤怠情報を取得
-        $attendances = Attendance::where('user_id', auth()->id())
-            ->whereYear('clock_in', substr($currentMonth, 0, 4))
-            ->whereMonth('clock_in', substr($currentMonth, 5, 2))
-            ->orderBy('clock_in', 'asc')
+        $startOfMonth = Carbon::parse($currentMonth)->startOfMonth();
+        $endOfMonth = Carbon::parse($currentMonth)->endOfMonth();
+
+        $previousMonth = Carbon::parse($currentMonth)->subMonth()->format('Y-m');
+        $nextMonth = Carbon::parse($currentMonth)->addMonth()->format('Y-m');
+
+        $attendances = Attendance::where('user_id', Auth::id())
+            ->whereBetween('date', [$startOfMonth, $endOfMonth])
+            ->orderBy('date', 'asc')
             ->get();
 
-        return view('attendance.index', compact('attendances', 'currentMonth'));
+        $dates = $this->attendanceService->getAllDatesOfMonth($currentMonth);
+
+        return view('attendance.index', [
+            'attendances' => $attendances,
+            'currentMonth' => $currentMonth,
+            'previousMonth' => $previousMonth,
+            'nextMonth' => $nextMonth,
+            'breakService' => $this->breakService,
+            'attendanceService' => $this->attendanceService,
+            'dates' => $dates,
+        ]);
     }
 
     public function detail($id)
     {
-        $attendance = Attendance::findOrFail($id);
+        $attendance = Attendance::with('user', 'breaks')->findOrFail($id);
 
-        $formattedBreaks = $attendance->getFormattedBreakTimes();
-
-        return view('attendance.detail', compact('attendance', 'formattedBreaks'));
+        return view('attendance.detail', [
+            'attendance' => $attendance,
+            'formattedBreaks' => $this->breakService->formatBreakSessions($attendance),
+            'attendanceService' => $this->attendanceService,
+        ]);
     }
 
     public function update(AttendanceRequest $request, $id)
     {
         $attendance = Attendance::findOrFail($id);
-        $date = $request->date;
+        $date = $attendance->date;
 
         // 勤怠情報を更新
         $this->updateAttendance($attendance, $date, $request);
@@ -72,8 +101,8 @@ class AttendanceController extends Controller
                         ->first();
 
             if ($break) {
-                $breakStartTime = $attendance->clock_in->toDateString() . ' ' . $breakData['break_start'];
-                $breakEndTime = $attendance->clock_in->toDateString() . ' ' . $breakData['break_end'];
+                $breakStartTime = $attendance->date . ' ' . $breakData['break_start'];
+                $breakEndTime = $attendance->date . ' ' . $breakData['break_end'];
 
                 $breakStart = Carbon::parse($breakStartTime);
                 $breakEnd = Carbon::parse($breakEndTime);
@@ -85,8 +114,8 @@ class AttendanceController extends Controller
             } else {
                 BreakModel::create([
                     'attendance_id' => $attendance->id,
-                    'break_start'    => Carbon::parse($attendance->clock_in->toDateString() . ' ' . $breakData['break_start']),
-                    'break_end'      => Carbon::parse($attendance->clock_in->toDateString() . ' ' . $breakData['break_end']),
+                    'break_start'    => Carbon::parse($attendance->date . ' ' . $breakData['break_start']),
+                    'break_end'      => Carbon::parse($attendance->date . ' ' . $breakData['break_end']),
                 ]);
             }
         }

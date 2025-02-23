@@ -3,14 +3,14 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Services\AttendanceService;
+use App\Services\WorkStatusService;
 use Illuminate\Support\Facades\Auth;
 
 abstract class WorkStatusRequest extends FormRequest
 {
-    protected AttendanceService $attendanceService;
+    protected WorkStatusService $attendanceService;
 
-    public function __construct(AttendanceService $attendanceService)
+    public function __construct(WorkStatusService $attendanceService)
     {
         $this->attendanceService = $attendanceService;
     }
@@ -18,11 +18,6 @@ abstract class WorkStatusRequest extends FormRequest
     public function authorize(): bool
     {
         return Auth::check();
-    }
-
-    public function rules(): array
-    {
-        return [];
     }
 
     abstract public function handle();

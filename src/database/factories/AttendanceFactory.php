@@ -12,6 +12,7 @@ class AttendanceFactory extends Factory
     public function definition()
     {
         return [
+            'date' => $this->faker->date(),
             'clock_in' => $this->faker->dateTimeThisYear(),
             'clock_out' => $this->faker->dateTimeThisYear(),
             'status' => Attendance::STATUS_CLOCKED_OUT,

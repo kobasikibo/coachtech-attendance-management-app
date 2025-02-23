@@ -26,6 +26,10 @@ h1 {
     border-radius: 0.6vw;
 }
 
+.invisible {
+    visibility: hidden;
+}
+
 .navigation-link {
     font-size: 1vw;
     text-decoration: none;

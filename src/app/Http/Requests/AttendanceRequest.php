@@ -10,12 +10,10 @@ class AttendanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'clock_in' => ['required', 'date_format:H:i'],
-            'clock_out' => ['required', 'date_format:H:i', 'after:clock_in'],
-            'remarks' => ['required', 'string'],
-            'breaks' => 'array',
-            'breaks.*.break_start' => ['nullable', 'date_format:H:i'],
-            'breaks.*.break_end' => ['nullable', 'date_format:H:i', 'after:breaks.*.break_start'],
+            'clock_in' => 'required|date_format:H:i|before:clock_out',
+            'clock_out' => 'required|date_format:H:i|after:clock_in',
+            'remarks' => 'required|string',
+            'breaks' => 'array|nullable',
         ];
     }
 
@@ -23,11 +21,12 @@ class AttendanceRequest extends FormRequest
     {
         return [
             'clock_in.required' => '出勤時間を記入してください',
+            'clock_in.before' => '出勤時間もしくは退勤時間が不適切な値です',
             'clock_out.required' => '退勤時間を記入してください',
+            'clock_out.after' => '出勤時間もしくは退勤時間が不適切な値です',
             'remarks.required' => '備考を記入してください',
         ];
     }
-
 
     public function withValidator($validator)
     {
@@ -35,16 +34,25 @@ class AttendanceRequest extends FormRequest
             $clockIn = Carbon::createFromFormat('H:i', $this->clock_in);
             $clockOut = Carbon::createFromFormat('H:i', $this->clock_out);
 
-            if ($clockIn->greaterThanOrEqualTo($clockOut)) {
-                $validator->errors()->add('clock_in', '出勤時間もしくは退勤時間が不適切な値です');
-            }
+            if ($this->has('breaks') && is_array($this->breaks)) {
+                foreach ($this->breaks as $key => $break) {
+                    // break_start と break_end のどちらかが空ならスキップ
+                    if (empty($break['break_start']) || empty($break['break_end'])) {
+                        continue;
+                    }
 
-            if ($this->break_start && $this->break_end) {
-                $breakStart = Carbon::createFromFormat('H:i', $this->break_start);
-                $breakEnd = Carbon::createFromFormat('H:i', $this->break_end);
+                    $breakStart = Carbon::createFromFormat('H:i', $break['break_start']);
+                    $breakEnd = Carbon::createFromFormat('H:i', $break['break_end']);
 
-                if ($breakStart->lessThan($clockIn) || $breakEnd->greaterThan($clockOut)) {
-                    $validator->errors()->add('breaks.*.break_start', '休憩時間が勤務時間外です');
+                    // 休憩開始が休憩終了より後の場合
+                    if ($breakStart->greaterThanOrEqualTo($breakEnd)) {
+                        $validator->errors()->add("breaks.$key.break_start", '休憩開始時間もしくは休憩終了時間が不適切な値です');
+                    }
+
+                    // 休憩時間が勤務時間外の場合
+                    if ($breakStart->lessThan($clockIn) || $breakEnd->greaterThan($clockOut)) {
+                        $validator->errors()->add("breaks.$key.break_start", '休憩時間が勤務時間外です');
+                    }
                 }
             }
         });

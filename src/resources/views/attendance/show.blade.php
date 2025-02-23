@@ -5,12 +5,9 @@
 @endsection
 
 @section('content')
+
 <div class="work-status">
-    @if ($attendance && $attendance->created_at->isToday())
-    {{ $attendance->status ?? '勤務外' }}
-    @else
-    勤務外
-    @endif
+    {{ $isAttendanceToday ? $attendance->status : '勤務外' }}
 </div>
 
 <div class="date">{{ now()->translatedFormat('Y年n月j日(D)') }}</div>
@@ -18,7 +15,7 @@
 <div class="current-time"></div>
 
 <div class="btn-container">
-    @if (!$attendance || !$attendance->created_at->isToday() || $attendance->status === '勤務外')
+    @if (!$attendance || !$isAttendanceToday || $attendance->status === '勤務外')
     <form action="{{ route('attendance.clockIn') }}" method="POST">
         @csrf
         <button type="submit" class="btn-submit">出勤</button>
