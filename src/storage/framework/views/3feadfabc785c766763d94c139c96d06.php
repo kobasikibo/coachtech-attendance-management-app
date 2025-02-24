@@ -42,10 +42,10 @@
         <?php $__currentLoopData = $attendances; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attendance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <tr>
             <td class="table-cell"><?php echo e($attendance->user->name); ?></td>
-            <td class="table-cell"><?php echo e($attendance->getFormattedClockIn()); ?></td>
-            <td class="table-cell"><?php echo e($attendance->getFormattedClockOut()); ?></td>
-            <td class="table-cell"><?php echo e($attendance->getFormattedBreakTime()); ?></td>
-            <td class="table-cell"><?php echo e($attendance->getWorkTime()); ?></td>
+            <td class="table-cell"><?php echo e($attendanceService->formatClockIn($attendance)); ?></td>
+            <td class="table-cell"><?php echo e($attendanceService->formatClockOut($attendance)); ?></td>
+            <td class="table-cell"><?php echo e($breakService->formatBreakTime($attendance)); ?></td>
+            <td class="table-cell"><?php echo e($attendanceService->formatWorkTime($attendance)); ?></td>
             <td class="table-cell">
                 <a class="table-link" href="<?php echo e(route('admin.attendance.detail', $attendance->id)); ?>">詳細</a>
             </td>

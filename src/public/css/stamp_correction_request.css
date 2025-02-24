@@ -1,0 +1,33 @@
+.container {
+    width: 70%;
+}
+
+.attendance-table {
+    white-space: nowrap; /* 折り返しをしない */
+}
+
+.table-header,
+.table-cell {
+    white-space: nowrap; /* 折り返しをしない */
+}
+
+.tab-container {
+    margin-top: 6%;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2%;
+    margin-bottom: 6%;
+}
+
+.tab-link {
+    color: rgba(0, 0, 0, 1);
+    font-weight: 400;
+    text-decoration: none;
+    margin-left: 7%;
+    margin-right: 2%;
+}
+
+.active {
+    font-weight: 700;
+}
+
+

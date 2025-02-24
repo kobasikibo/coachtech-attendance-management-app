@@ -45,7 +45,7 @@ class Attendance extends Model
     public const STATUS_ON_BREAK = '休憩中';
     public const STATUS_CLOCKED_OUT = '退勤済';
 
-    public const APPROVAL_PENDING = 'pending';
-    public const APPROVAL_APPROVED = 'approved';
-    public const APPROVAL_REJECTED = 'rejected';
+    public const APPROVAL_REGISTERED = '登録済み';
+    public const APPROVAL_PENDING = '承認待ち';
+    public const APPROVAL_APPROVED = '承認済み';
 }

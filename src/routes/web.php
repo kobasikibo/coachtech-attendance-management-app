@@ -7,6 +7,8 @@ use App\Http\Requests\CustomEmailVerificationRequest;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\WorkStatusController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\StampCorrectionRequestController;
+
 
 
 Route::post('/register', [RegisterController::class, 'register'])->name('auth.register');

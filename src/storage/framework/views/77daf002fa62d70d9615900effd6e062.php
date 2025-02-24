@@ -36,9 +36,9 @@
                 </div>
                 <div class="form-input-container">
                     <input type="time" name="clock_in" value="<?php echo e($attendanceService->formatClockIn($attendance)); ?>"
-                        class="form-control-left" <?php echo e($attendance->approval_status === 'pending' ? 'disabled' : ''); ?>>
+                        class="form-control-left" <?php echo e($attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : ''); ?>>
                     〜
-                    <input type="time" name="clock_out" value="<?php echo e($attendanceService->formatClockOut($attendance)); ?>" class="form-control-right" <?php echo e($attendance->approval_status === 'pending' ? 'disabled' : ''); ?>>
+                    <input type="time" name="clock_out" value="<?php echo e($attendanceService->formatClockOut($attendance)); ?>" class="form-control-right" <?php echo e($attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : ''); ?>>
                 </div>
             </div>
 
@@ -63,9 +63,9 @@ unset($__errorArgs, $__bag); ?>
                 <div class="form-input-container">
                     <input type="hidden" name="break_id[<?php echo e($index); ?>]" value="<?php echo e($break['id']); ?>">
 
-                    <input type="time" name="breaks[<?php echo e($break['id']); ?>][break_start]" value="<?php echo e($break['break_start']); ?>" class="form-control-left" <?php echo e($attendance->approval_status === 'pending' ? 'disabled' : ''); ?>>
+                    <input type="time" name="breaks[<?php echo e($break['id']); ?>][break_start]" value="<?php echo e($break['break_start']); ?>" class="form-control-left" <?php echo e($attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : ''); ?>>
                     〜
-                    <input type="time" name="breaks[<?php echo e($break['id']); ?>][break_end]" value="<?php echo e($break['break_end']); ?>" class="form-control-right" <?php echo e($attendance->approval_status === 'pending' ? 'disabled' : ''); ?>>
+                    <input type="time" name="breaks[<?php echo e($break['id']); ?>][break_end]" value="<?php echo e($break['break_end']); ?>" class="form-control-right" <?php echo e($attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : ''); ?>>
                 </div>
             </div>
             <?php $__currentLoopData = $errors->get("breaks.$index.break_start"); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $message): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -94,7 +94,7 @@ unset($__errorArgs, $__bag); ?>
                     <label class="form-label">備考</label>
                 </div>
                 <div class="form-input-container">
-                    <textarea name="remarks" class="form-control-large" <?php echo e($attendance->approval_status === 'pending' ? 'disabled' : ''); ?>><?php echo e($attendance->remarks); ?></textarea>
+                    <textarea name="remarks" class="form-control-large" <?php echo e($attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : ''); ?>><?php echo e($attendance->remarks); ?></textarea>
                 </div>
             </div>
 
@@ -111,13 +111,13 @@ unset($__errorArgs, $__bag); ?>
         </div>
     </div>
 
-    <?php if($attendance->approval_status === 'pending'): ?>
+    <?php if($attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING): ?>
     <div class="alert">
         *承認待ちのため修正はできません。
     </div>
     <?php endif; ?>
 
-    <button type="submit" class="btn-submit <?php echo e($attendance->approval_status === 'pending' ? 'invisible' : ''); ?>">修正</button>
+    <button type="submit" class="btn-submit <?php echo e($attendance->approval_status === '承認待ち' ? 'invisible' : ''); ?>">修正</button>
 </form>
 
 <?php $__env->stopSection(); ?>

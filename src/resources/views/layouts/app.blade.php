@@ -16,12 +16,28 @@
     <header class="header">
         <div class="header-inner">
             <div class="header-container">
-                <a class="header-logo" href="/attendance">
+                <a class="header-logo" href="{{ Route::currentRouteName() === 'login' ? route('admin.login') : route('login') }}">
                     <img src="{{ asset('images/logo.svg') }}" alt="coachtechのロゴ">
                 </a>
             </div>
 
-            @if (!in_array(request()->route()->getName(), ['login', 'register', 'admin.login']))
+            @php
+            $routeName = request()->route()->getName();
+            @endphp
+
+            @if (str_starts_with($routeName, 'admin.') && !in_array($routeName, ['login', 'register', 'admin.login']))
+            <div class="header-container">
+                <div class="header-links">
+                    <a href="{{ route('admin.attendance.index') }}" class="link-attendance-list">勤怠一覧</a>
+                    <a href="{{ route('attendance.show') }}" class="link-attendance">スタッフ一覧</a>
+                    <a href="{{ route('admin.stamp_correction_request.index') }}" class="link-request">申請一覧</a>
+                    <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                        @csrf
+                        <button type="submit" class="link-style-button">ログアウト</button>
+                    </form>
+                </div>
+            </div>
+            @elseif (!in_array($routeName, ['login', 'register', 'admin.login']))
             <div class="header-container">
                 <div class="header-links">
                     <a href="{{ route('attendance.show') }}" class="link-attendance">勤怠</a>

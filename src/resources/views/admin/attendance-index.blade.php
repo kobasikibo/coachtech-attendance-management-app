@@ -44,10 +44,10 @@
         @foreach($attendances as $attendance)
         <tr>
             <td class="table-cell">{{ $attendance->user->name }}</td>
-            <td class="table-cell">{{ $attendance->getFormattedClockIn() }}</td>
-            <td class="table-cell">{{ $attendance->getFormattedClockOut() }}</td>
-            <td class="table-cell">{{ $attendance->getFormattedBreakTime() }}</td>
-            <td class="table-cell">{{ $attendance->getWorkTime() }}</td>
+            <td class="table-cell">{{ $attendanceService->formatClockIn($attendance) }}</td>
+            <td class="table-cell">{{ $attendanceService->formatClockOut($attendance) }}</td>
+            <td class="table-cell">{{ $breakService->formatBreakTime($attendance) }}</td>
+            <td class="table-cell">{{ $attendanceService->formatWorkTime($attendance) }}</td>
             <td class="table-cell">
                 <a class="table-link" href="{{ route('admin.attendance.detail', $attendance->id) }}">詳細</a>
             </td>

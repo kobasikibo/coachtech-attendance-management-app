@@ -16,17 +16,33 @@
     <header class="header">
         <div class="header-inner">
             <div class="header-container">
-                <a class="header-logo" href="/attendance">
+                <a class="header-logo" href="<?php echo e(Route::currentRouteName() === 'login' ? route('admin.login') : route('login')); ?>">
                     <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="coachtechのロゴ">
                 </a>
             </div>
 
-            <?php if(!in_array(request()->route()->getName(), ['login', 'register', 'admin.login'])): ?>
+            <?php
+            $routeName = request()->route()->getName();
+            ?>
+
+            <?php if(str_starts_with($routeName, 'admin.') && !in_array($routeName, ['login', 'register', 'admin.login'])): ?>
+            <div class="header-container">
+                <div class="header-links">
+                    <a href="<?php echo e(route('admin.attendance.index')); ?>" class="link-attendance-list">勤怠一覧</a>
+                    <a href="<?php echo e(route('attendance.show')); ?>" class="link-attendance">スタッフ一覧</a>
+                    <a href="<?php echo e(route('admin.stamp_correction_request.index')); ?>" class="link-request">申請一覧</a>
+                    <form action="<?php echo e(route('logout')); ?>" method="POST" class="logout-form">
+                        <?php echo csrf_field(); ?>
+                        <button type="submit" class="link-style-button">ログアウト</button>
+                    </form>
+                </div>
+            </div>
+            <?php elseif(!in_array($routeName, ['login', 'register', 'admin.login'])): ?>
             <div class="header-container">
                 <div class="header-links">
                     <a href="<?php echo e(route('attendance.show')); ?>" class="link-attendance">勤怠</a>
                     <a href="<?php echo e(route('attendance.index')); ?>" class="link-attendance-list">勤怠一覧</a>
-                    <a href="<?php echo e(route('attendance.show')); ?>" class="link-request">申請</a>
+                    <a href="<?php echo e(route('user.stamp_correction_request.index')); ?>" class="link-request">申請</a>
                     <form action="<?php echo e(route('logout')); ?>" method="POST" class="logout-form">
                         <?php echo csrf_field(); ?>
                         <button type="submit" class="link-style-button">ログアウト</button>

@@ -55,6 +55,7 @@ h1 {
     border-radius: 0.6vw;
     color: rgba(115, 115, 115, 1);
     letter-spacing: 0.1em;
+    margin-bottom: 10%;
 }
 
 .table-header,

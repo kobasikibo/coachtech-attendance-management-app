@@ -12,11 +12,16 @@ class AttendanceFactory extends Factory
     public function definition()
     {
         return [
+            'status' => Attendance::STATUS_CLOCKED_OUT,
+            'approval_status' => $this->faker->randomElement([
+                Attendance::APPROVAL_REGISTERED,
+                Attendance::APPROVAL_PENDING,
+                Attendance::APPROVAL_APPROVED,
+            ]),
             'date' => $this->faker->date(),
             'clock_in' => $this->faker->dateTimeThisYear(),
             'clock_out' => $this->faker->dateTimeThisYear(),
-            'status' => Attendance::STATUS_CLOCKED_OUT,
-            'approval_status' => Attendance::APPROVAL_APPROVED,
+            'remarks' => '遅延のため',
         ];
     }
 }
