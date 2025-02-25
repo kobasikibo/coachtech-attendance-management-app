@@ -31,7 +31,7 @@
                     <a href="<?php echo e(route('admin.attendance.index')); ?>" class="link-attendance-list">勤怠一覧</a>
                     <a href="<?php echo e(route('attendance.show')); ?>" class="link-attendance">スタッフ一覧</a>
                     <a href="<?php echo e(route('admin.stamp_correction_request.index')); ?>" class="link-request">申請一覧</a>
-                    <form action="<?php echo e(route('logout')); ?>" method="POST" class="logout-form">
+                    <form action="<?php echo e(route('admin.logout')); ?>" method="POST" class="logout-form">
                         <?php echo csrf_field(); ?>
                         <button type="submit" class="link-style-button">ログアウト</button>
                     </form>

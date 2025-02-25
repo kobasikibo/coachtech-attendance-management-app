@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Actions\Fortify\CreateNewUser;
 use App\Http\Requests\RegisterRequest;
 
-class RegisterController
+class RegisterController extends Controller
 {
     protected $createNewUser;
 

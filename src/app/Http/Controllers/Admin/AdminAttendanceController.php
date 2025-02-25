@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
-use App\Http\Controllers\Controller;
 use App\Services\AttendanceService;
 use App\Services\BreakService;
 
@@ -43,6 +43,6 @@ class AdminAttendanceController extends Controller
         $attendance = Attendance::with('user')
             ->findOrFail($attendanceId);
 
-        return view('admin.attendance.show', compact('attendance'));
+        return view('admin.attendance.detail', compact('attendance'));
     }
 }

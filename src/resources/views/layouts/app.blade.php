@@ -31,7 +31,7 @@
                     <a href="{{ route('admin.attendance.index') }}" class="link-attendance-list">勤怠一覧</a>
                     <a href="{{ route('attendance.show') }}" class="link-attendance">スタッフ一覧</a>
                     <a href="{{ route('admin.stamp_correction_request.index') }}" class="link-request">申請一覧</a>
-                    <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                    <form action="{{ route('admin.logout') }}" method="POST" class="logout-form">
                         @csrf
                         <button type="submit" class="link-style-button">ログアウト</button>
                     </form>
