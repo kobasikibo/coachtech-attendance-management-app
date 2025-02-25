@@ -24,12 +24,10 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::createUsersUsing(CreateNewUser::class);
 
 
-        Fortify::loginView(function (Request $request) {
-            if ($request->is('admin/*')) {
-                return view('auth.admin-login');
-            }
+        Fortify::loginView(function () {
             return view('auth.login');
         });
+
 
         Fortify::authenticateUsing(function (Request $request) {
             if ($request->is('admin/*')) {

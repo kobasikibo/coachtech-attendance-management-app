@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        Auth::provider('admins', function ($app, array $config) {
+        Auth::provider('admins', function ($app) {
             return new \Illuminate\Auth\EloquentUserProvider($app['hash'], Admin::class);
         });
     }

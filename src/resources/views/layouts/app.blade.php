@@ -16,7 +16,7 @@
     <header class="header">
         <div class="header-inner">
             <div class="header-container">
-                <a class="header-logo" href="{{ Route::currentRouteName() === 'login' ? route('admin.login') : route('login') }}">
+                <a class="header-logo" href="{{ Route::currentRouteName() === 'login' ? route('admin.login') : (Route::currentRouteName() === 'admin.login' ? route('login') : route('attendance.show')) }}">
                     <img src="{{ asset('images/logo.svg') }}" alt="coachtechのロゴ">
                 </a>
             </div>
