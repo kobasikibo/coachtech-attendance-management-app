@@ -5,7 +5,7 @@
 <?php $__env->startSection('content'); ?>
 <h1>勤怠詳細</h1>
 
-<form method="POST" action="<?php echo e(route('attendance.update', $attendance->id)); ?>">
+<form method="POST" action="<?php echo e(route('admin.attendance.update', $attendance->id)); ?>">
     <?php echo csrf_field(); ?>
     <?php echo method_field('PUT'); ?>
 
@@ -58,7 +58,7 @@ unset($__errorArgs, $__bag); ?>
         <div class="form-break">
             <div class="form-row">
                 <div class="form-label-container">
-                    <label class="form-label">休憩 <?php echo e($index + 1); ?></label>
+                    <label class="form-label"><?php echo e($index === 0 ? '休憩' : '休憩 ' . ($index + 1)); ?></label>
                 </div>
                 <div class="form-input-container">
                     <input type="hidden" name="break_id[<?php echo e($index); ?>]" value="<?php echo e($break['id']); ?>">
@@ -68,13 +68,9 @@ unset($__errorArgs, $__bag); ?>
                     <input type="time" name="breaks[<?php echo e($break['id']); ?>][break_end]" value="<?php echo e($break['break_end']); ?>" class="form-control-right" <?php echo e($attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : ''); ?>>
                 </div>
             </div>
-            <?php $__empty_2 = true; $__currentLoopData = $errors->get("breaks.{$break['id']}.break_start"); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $message): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_2 = false; ?>
+            <?php $__currentLoopData = $errors->get("breaks.$index.break_start"); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $message): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="error"><?php echo e($message); ?></div>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_2): ?>
-                <?php $__currentLoopData = $errors->get("breaks.{$break['id']}.break_end"); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $message): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <div class="error"><?php echo e($message); ?></div>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            <?php endif; ?>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
         <!-- 休憩情報が一つもない場合 -->
@@ -125,4 +121,4 @@ unset($__errorArgs, $__bag); ?>
 </form>
 
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/resources/views/attendance/detail.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/resources/views/admin/attendance-detail.blade.php ENDPATH**/ ?>

@@ -7,7 +7,7 @@
 @section('content')
 <h1>勤怠詳細</h1>
 
-<form method="POST" action="{{ route('attendance.update', $attendance->id) }}">
+<form method="POST" action="{{ route('admin.attendance.update', $attendance->id) }}">
     @csrf
     @method('PUT')
 
@@ -38,9 +38,9 @@
                 </div>
                 <div class="form-input-container">
                     <input type="time" name="clock_in" value="{{ $attendanceService->formatClockIn($attendance) }}"
-                        class="form-control-left" {{ $attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : '' }}>
+                        class="form-control-left">
                     〜
-                    <input type="time" name="clock_out" value="{{ $attendanceService->formatClockOut($attendance) }}" class="form-control-right" {{ $attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : '' }}>
+                    <input type="time" name="clock_out" value="{{ $attendanceService->formatClockOut($attendance) }}" class="form-control-right">
                 </div>
             </div>
 
@@ -53,14 +53,14 @@
         <div class="form-break">
             <div class="form-row">
                 <div class="form-label-container">
-                    <label class="form-label">休憩 {{ $index + 1 }}</label>
+                    <label class="form-label">{{ $index === 0 ? '休憩' : '休憩 ' . ($index + 1) }}</label>
                 </div>
                 <div class="form-input-container">
                     <input type="hidden" name="break_id[{{ $index }}]" value="{{ $break['id'] }}">
 
-                    <input type="time" name="breaks[{{ $break['id'] }}][break_start]" value="{{ $break['break_start'] }}" class="form-control-left" {{ $attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : '' }}>
+                    <input type="time" name="breaks[{{ $break['id'] }}][break_start]" value="{{ $break['break_start'] }}" class="form-control-left">
                     〜
-                    <input type="time" name="breaks[{{ $break['id'] }}][break_end]" value="{{ $break['break_end'] }}" class="form-control-right" {{ $attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : '' }}>
+                    <input type="time" name="breaks[{{ $break['id'] }}][break_end]" value="{{ $break['break_end'] }}" class="form-control-right">
                 </div>
             </div>
             @forelse ($errors->get("breaks.{$break['id']}.break_start") as $message)
@@ -93,7 +93,7 @@
                     <label class="form-label">備考</label>
                 </div>
                 <div class="form-input-container">
-                    <textarea name="remarks" class="form-control-large" {{ $attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : '' }}>{{ $attendance->remarks }}</textarea>
+                    <textarea name="remarks" class="form-control-large">{{ $attendance->remarks }}</textarea>
                 </div>
             </div>
 
@@ -103,13 +103,7 @@
         </div>
     </div>
 
-    @if($attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING)
-    <div class="alert">
-        *承認待ちのため修正はできません。
-    </div>
-    @endif
-
-    <button type="submit" class="btn-submit {{ $attendance->approval_status === '承認待ち' ? 'invisible' : '' }}">修正</button>
+    <button type="submit" class="btn-submit">修正</button>
 </form>
 
 @endsection
