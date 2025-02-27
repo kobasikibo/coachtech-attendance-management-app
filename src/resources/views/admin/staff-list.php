@@ -2,7 +2,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/attendance-index.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/admin-attendance-index.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/admin-staff-list.css') }}" />
 @endsection
 
 @section('content')
@@ -17,13 +17,15 @@
         </tr>
     </thead>
     <tbody>
+        @foreach($users as $user)
         <tr>
             <td class="table-cell">{{ $user->name }}</td>
             <td class="table-cell">{{ $user->email }}</td>
             <td class="table-cell">
-                <a href="{{ route('admin.attendance-staff') }}" class="link-attendance-list">詳細</a>
+                <a href="{{ route('admin.attendance-monthly', ['user' => $user->id]) }}" class="link-attendance-list">詳細</a>
             </td>
         </tr>
+        @endforeach
     </tbody>
 </table>
 @endsection
