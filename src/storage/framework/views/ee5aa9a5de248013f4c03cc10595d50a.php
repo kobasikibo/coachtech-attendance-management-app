@@ -31,7 +31,7 @@
             <td class="table-cell"><?php echo e($attendance->remarks); ?></td>
             <td class="table-cell"><?php echo e(\Carbon\Carbon::parse($attendance->updated_at)->translatedFormat('Y/m/d')); ?></td>
             <td class="table-cell">
-                <a class="table-link" href="<?php echo e(route('attendance.detail', $attendance->id)); ?>">詳細</a>
+                <a class="table-link" href="<?php echo e(route('admin.attendance.detail', $attendance->id)); ?>">詳細</a>
             </td>
         </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

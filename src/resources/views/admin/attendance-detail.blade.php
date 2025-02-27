@@ -84,6 +84,13 @@
                     <input type="time" name="breaks[0][break_end]" class="form-control-right">
                 </div>
             </div>
+            @forelse ($errors->get("breaks.0.break_start") as $message)
+            <div class="error">{{ $message }}</div>
+            @empty
+                @foreach ($errors->get("breaks.0.break_end") as $message)
+                <div class="error">{{ $message }}</div>
+                @endforeach
+            @endforelse
         </div>
         @endforelse
 
