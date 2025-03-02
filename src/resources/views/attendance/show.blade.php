@@ -1,48 +1,122 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/attendance-show.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/attendance-detail.css') }}" />
 @endsection
 
 @section('content')
+<h1>勤怠詳細</h1>
 
-<div class="work-status">
-    {{ $isAttendanceToday ? $attendance->status : '勤務外' }}
-</div>
+<form method="POST" action="{{ route('attendance.update', $attendance->id) }}">
+    @csrf
+    @method('PUT')
 
-<div class="date">{{ now()->translatedFormat('Y年n月j日(D)') }}</div>
+    <div class="form-group">
+        <div class="form-name">
+            <div class="form-label-container">
+                <label class="form-label">名前</label>
+            </div>
+            <div class="form-input-container">
+                <p class="name">{{ $attendance->user->name ?? '' }}</p>
+            </div>
+        </div>
 
-<div class="current-time"></div>
+        <div class="form-date">
+            <div class="form-label-container">
+                <label class="form-label">日付</label>
+            </div>
+            <div class="form-input-container">
+                <p class="attendance-year">{{ $attendanceService->getYearFromClockIn($attendance) }}</p>
+                <p class="attendance-date">{{ $attendanceService->getMonthDayFromClockIn($attendance) }}</p>
+            </div>
+        </div>
 
-<div class="btn-container">
-    @if (!$attendance || !$isAttendanceToday || $attendance->status === '勤務外')
-    <form action="{{ route('attendance.clockIn') }}" method="POST">
-        @csrf
-        <button type="submit" class="btn-submit">出勤</button>
-    </form>
-    @elseif ($attendance->status === '出勤中')
-    <form action="{{ route('attendance.clockOut') }}" method="POST">
-        @csrf
-        <button type="submit" class="btn-submit">退勤</button>
-    </form>
-    <form action="{{ route('attendance.startBreak') }}" method="POST">
-        @csrf
-        <button type="submit" class="btn-submit-brake">休憩入</button>
-    </form>
-    @elseif ($attendance->status === '休憩中')
-    <form action="{{ route('attendance.endBreak') }}" method="POST">
-        @csrf
-        <button type="submit" class="btn-submit-brake">休憩戻</button>
-    </form>
+        <div class="form-clock">
+            <div class="form-row">
+                <div class="form-label-container">
+                    <label class="form-label">出勤・退勤</label>
+                </div>
+                <div class="form-input-container">
+                    <input type="time" name="clock_in" value="{{ $attendanceService->formatClockIn($attendance) }}"
+                        class="form-control-left" {{ $attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : '' }}>
+                    〜
+                    <input type="time" name="clock_out" value="{{ $attendanceService->formatClockOut($attendance) }}" class="form-control-right" {{ $attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : '' }}>
+                </div>
+            </div>
+
+            @error('clock_in')
+            <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
+
+        @forelse ($formattedBreaks as $index => $break)
+        <div class="form-break">
+            <div class="form-row">
+                <div class="form-label-container">
+                    <label class="form-label">休憩 {{ $index + 1 }}</label>
+                </div>
+                <div class="form-input-container">
+                    <input type="hidden" name="break_id[{{ $index }}]" value="{{ $break['id'] }}">
+
+                    <input type="time" name="breaks[{{ $break['id'] }}][break_start]" value="{{ $break['break_start'] }}" class="form-control-left" {{ $attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : '' }}>
+                    〜
+                    <input type="time" name="breaks[{{ $break['id'] }}][break_end]" value="{{ $break['break_end'] }}" class="form-control-right" {{ $attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : '' }}>
+                </div>
+            </div>
+            @forelse ($errors->get("breaks.{$break['id']}.break_start") as $message)
+            <div class="error">{{ $message }}</div>
+            @empty
+                @foreach ($errors->get("breaks.{$break['id']}.break_end") as $message)
+                <div class="error">{{ $message }}</div>
+                @endforeach
+            @endforelse
+        </div>
+        @empty
+        <!-- 休憩情報が一つもない場合 -->
+        <div class="form-break">
+            <div class="form-row">
+                <div class="form-label-container">
+                    <label class="form-label">休憩</label>
+                </div>
+                <div class="form-input-container">
+                    <input type="time" name="breaks[0][break_start]" class="form-control-left">
+                    〜
+                    <input type="time" name="breaks[0][break_end]" class="form-control-right">
+                </div>
+            </div>
+            @forelse ($errors->get("breaks.0.break_start") as $message)
+            <div class="error">{{ $message }}</div>
+            @empty
+                @foreach ($errors->get("breaks.0.break_end") as $message)
+                <div class="error">{{ $message }}</div>
+                @endforeach
+            @endforelse
+        </div>
+        @endforelse
+
+        <div class="form-remarks">
+            <div class="form-row-large">
+                <div class="form-label-container">
+                    <label class="form-label">備考</label>
+                </div>
+                <div class="form-input-container">
+                    <textarea name="remarks" class="form-control-large" {{ $attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING ? 'disabled' : '' }}>{{ $attendance->remarks }}</textarea>
+                </div>
+            </div>
+
+            @error('remarks')
+            <div class="error">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    @if($attendance->approval_status === \App\Models\Attendance::APPROVAL_PENDING)
+    <div class="alert">
+        *承認待ちのため修正はできません。
+    </div>
     @endif
-</div>
 
-@if (session('success'))
-<div class="success">{{ session('success') }}</div>
-@endif
-@if (session('error'))
-<div class="error">{{ session('error') }}</div>
-@endif
+    <button type="submit" class="btn-submit {{ $attendance->approval_status === '承認待ち' ? 'invisible' : '' }}">修正</button>
+</form>
 
-<script src="{{ asset('js/attendance-show.js') }}"></script>
 @endsection
