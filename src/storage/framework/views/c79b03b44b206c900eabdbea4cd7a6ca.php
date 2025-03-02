@@ -16,7 +16,7 @@
     <header class="header">
         <div class="header-inner">
             <div class="header-container">
-                <a class="header-logo" href="<?php echo e(Route::currentRouteName() === 'login' ? route('admin.login.create') : (Route::currentRouteName() === 'admin.login' ? route('login') : route('attendance.create'))); ?>">
+                <a class="header-logo" href="<?php echo e(Route::currentRouteName() === 'login' ? route('admin.login.create') : (Route::currentRouteName() === 'admin.login.create' ? route('login') : route('attendance.create'))); ?>">
                     <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="coachtechのロゴ">
                 </a>
             </div>

@@ -11,11 +11,12 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
 
     Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');
-    Route::get('/attendance/staff/{id}', [AttendanceController::class, 'staffAttendance'])->name('attendance.staff');
+    Route::get('/attendance/staff/{id}', [AttendanceController::class, 'indexStaffAttendance'])->name('attendance.staff');
 
     Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'index'])
     ->name('stamp_correction_request.index');
-    Route::put('/stamp_correction_request/approve', [StampCorrectionRequestController::class, 'approve'])
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request}', [StampCorrectionRequestController::class, 'show'])
+    ->name('stamp_correction_request.show');
+    Route::put('/stamp_correction_request/approve/{attendance_correct_request}', [StampCorrectionRequestController::class, 'approve'])
     ->name('stamp_correction_request.approve');
-
 });
