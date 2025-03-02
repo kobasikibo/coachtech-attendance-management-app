@@ -22,7 +22,7 @@
             <td class="table-cell">{{ $user->name }}</td>
             <td class="table-cell">{{ $user->email }}</td>
             <td class="table-cell">
-                <a href="{{ route('admin.attendance-monthly', ['user' => $user->id]) }}" class="link-attendance-list">詳細</a>
+                <a href="{{ route('admin.attendance.staff', ['user' => $user->id]) }}" class="link-attendance-list">詳細</a>
             </td>
         </tr>
         @endforeach

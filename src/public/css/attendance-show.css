@@ -1,87 +1,171 @@
 .container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 80vh;
-}
-
-.work-status {
+    justify-content: flex-start;
+    width: 60%;
+    margin: 0 auto;
     font-weight: 700;
-    background-color: rgba(200, 200, 200, 1);
-    color: rgba(105, 105, 105, 1);
-    font-size: 1.125vw;
-    font-weight: 700;
-    padding: 0.2vw 1.2vw;
-    border: 0.15vw solid rgba(200, 200, 200, 1);
-    border-radius: 5vw;
-    white-space: nowrap;
 }
 
-.date {
-    font-weight: 400;
-    font-size: 2.5vw;
-    margin-top: 2vw;
+h1 {
+    text-align: left;
+    font-size: 1.875vw;
+    margin-top: 10%;
+    padding-left: 3%;
+    border-left: 0.5vw solid rgba(0, 0, 0, 1);;
 }
 
-.current-time {
-    font-weight: 700;
-    font-size: 5vw;
-    margin-top: 1.5vw;
-}
-
-.btn-container {
+.form-group {
     display: flex;
-    justify-content: space-between;
-    gap: 5vw;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 1);
+    margin-top: 5vw;
+    border-radius: 0.6vw;
+    font-size: 1vw;
+    letter-spacing: 0.1em;
+}
+
+.form-name,
+.form-date {
+    display: flex;
+    padding: 1.8vw 1.6vw;
+    border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
+}
+
+.form-clock,
+.form-break {
+    flex-direction: column;
+    padding: 1.8vw 1.6vw;
+    border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
+}
+
+.form-remarks {
+    flex-direction: column;
+    padding: 0.8vw 1.6vw;
+}
+
+.form-row {
+    display: flex;
+}
+
+.form-row-large {
+    display: flex;
+}
+
+.form-label-container {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    padding-left: 3vw;
+    justify-content: center;
+}
+
+.form-label {
+    color: rgba(115, 115, 115, 1);
+}
+
+.form-input-container {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+}
+
+.form-control-left,
+.form-control-right {
+    border: 0.1vw solid rgba(225, 225, 225, 1);
+    border-radius: 0.2vw;
+    color: rgba(0, 0, 0, 1);
+    text-align: center;
+    padding: 0.2vw 0.5vw;
+    width: 6vw;
+}
+
+.form-control-left::-webkit-calendar-picker-indicator,
+.form-control-right::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.form-control-left {
+    margin-right: 3.5vw;
+}
+
+.form-control-right {
+    margin-left: 3.5vw;
+}
+
+input:disabled {
+    border: none;
+    cursor: default;
+}
+
+.form-control-large {
+    border: 0.1vw solid rgba(225, 225, 225, 1);
+    border-radius: 0.2vw;
+    font-size: 0.9vw;
+    color: rgba(0, 0, 0, 1);
+    padding: 0.3vw 1.5vw;
+    width: 21.3vw;
+    margin-right: 6vw;
+    resize: none;
+    height: 4.5em;
+    line-height: 1.5em;
+}
+
+
+textarea:disabled {
+    border: none;
+    cursor: default;
+    height: 1.5em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+}
+
+.name,
+.attendance-year {
+    margin-left: 1.5vw;
+}
+
+.attendance-date {
+    margin-left: 10.8vw;
+}
+
+.error {
+    margin-left: 3vw;
+    margin-top: 1vw;
+}
+
+.alert {
+    color: rgba(255, 0, 0, 0.5);
+    font-size: 1.125vw;
+    font-weight: 800;
+    margin-top: 1vw;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .btn-submit {
-    width: 100%;
-    margin-top: 4vw;
-    margin-right: 7vw;
-    padding: 1vw 1.1vw;
+    width: 14%;
+    margin-top: 12%;
+    margin-bottom: 10%;
+    padding: 0.6vw;
     background-color: rgba(0, 0, 0, 1);
     color: white;
-    font-size: 2vw;
+    font-size: 1.375vw;
     font-weight: 700;
     text-align: center;
     border: none;
-    border-radius: 1.2vw;
+    border-radius: 0.3vw;
     cursor: pointer;
     transition: background-color 0.3s;
-    white-space: nowrap;
+    display: block;
+    margin-left: auto;
 }
 
 .btn-submit:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
-.btn-submit-brake {
-    width: 100%;
-    margin-top: 4vw;
-    margin-right: 5vw;
-    padding: 1vw 1vw;
-    background-color: rgba(255, 255, 255, 1);
-    color: rgba(0, 0, 0, 1);
-    font-size: 2vw;
-    font-weight: 700;
-    text-align: center;
-    border: none;
-    border-radius: 1.2vw;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    white-space: nowrap;
+.invisible {
+    visibility: hidden;
 }
 
-.btn-submit-brake:hover {
-    background-color: rgba(255, 255, 255, 1.4);
-}
-
-.success {
-    font-size: 1.625vw;
-    font-weight: 700;
-    margin-top: 5vw;
-    margin-left: 1vw;
-    letter-spacing: 0.2em;
-}

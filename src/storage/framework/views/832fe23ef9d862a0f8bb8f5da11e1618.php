@@ -31,7 +31,7 @@
             <td class="table-cell"><?php echo e($attendance->remarks); ?></td>
             <td class="table-cell"><?php echo e(\Carbon\Carbon::parse($attendance->updated_at)->translatedFormat('Y/m/d')); ?></td>
             <td class="table-cell">
-                <a class="table-link" href="<?php echo e(route('admin.attendance.detail', $attendance->id)); ?>">詳細</a>
+                <a class="table-link" href="<?php echo e(route('admin.attendance.show', $attendance->id)); ?>">詳細</a>
             </td>
         </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -42,4 +42,4 @@
 <?php $__env->startSection('scripts'); ?>
 <script src="<?php echo e(asset('js/admin-tab-selector.js')); ?>" defer></script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/resources/views/admin/stamp_correction_request-index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/resources/views/admin/stamp_correction_request/index.blade.php ENDPATH**/ ?>

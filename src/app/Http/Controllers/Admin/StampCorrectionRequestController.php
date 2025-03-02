@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 
-class AdminStampCorrectionRequestController extends Controller
+class StampCorrectionRequestController extends Controller
 {
     public function index(Request $request)
     {
@@ -22,7 +22,7 @@ class AdminStampCorrectionRequestController extends Controller
             $attendances = Attendance::where('approval_status', Attendance::APPROVAL_APPROVED)->get();
         }
 
-        return view('admin.stamp_correction_request-index', [
+        return view('admin.stamp_correction_request.index', [
             'attendances' => $attendances,
             'tab' => $tab,
         ]);

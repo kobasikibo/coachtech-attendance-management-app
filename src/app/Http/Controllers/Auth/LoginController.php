@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function login(LoginRequest $request)
+    public function store(LoginRequest $request)
     {
         if (Auth::attempt($request->only('email', 'password'))) {
             /** @var \App\Models\User $user */

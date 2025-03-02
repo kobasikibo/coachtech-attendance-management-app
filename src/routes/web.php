@@ -6,13 +6,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Requests\CustomEmailVerificationRequest;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\WorkStatusController;
-use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\StampCorrectionRequestController;
 
-
-
-Route::post('/register', [RegisterController::class, 'register'])->name('auth.register');
-Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
+Route::post('/register', [RegisterController::class, 'store'])->name('auth.register');
+Route::post('/login', [LoginController::class, 'store'])->name('auth.login');
 
 Route::post('/email/verification-notification', function () {
     request()->user()->sendEmailVerificationNotification();
@@ -25,9 +23,9 @@ Route::get('email/verify/{id}/{hash}', function (CustomEmailVerificationRequest 
 })->middleware(['signed'])->name('verification.verify');
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/attendance', [AttendanceController::class, 'show'])->name('attendance.show');
+    Route::get('/attendance', [AttendanceController::class, 'create'])->name('attendance.create');
     Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('attendance.index');
-    Route::get('/attendance/{id}', [AttendanceController::class, 'detail'])->name('attendance.detail');
+    Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('attendance.show');
     Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
 
     Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'index'])
@@ -39,6 +37,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/attendance/clock-out', [WorkStatusController::class, 'clockOut'])->name('attendance.clockOut');
 });
 
-Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
-Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.post');
-Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+Route::get('/admin/login', [AuthController::class, 'create'])->name('admin.login.create');
+Route::post('/admin/login', [AuthController::class, 'store'])->name('admin.login.store');
+Route::post('/admin/logout', [AuthController::class, 'logout'])->name('admin.logout');

@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AttendanceRequest;
 use Carbon\Carbon;
 
-class AdminAttendanceController extends Controller
+class AttendanceController extends Controller
 {
     protected $attendanceService;
     protected $breakService;
@@ -33,7 +33,7 @@ class AdminAttendanceController extends Controller
             ->orderBy('user_id')
             ->get();
 
-        return view('admin.attendance-index', [
+        return view('admin.attendance.index', [
             'attendances' => $attendances,
             'currentDay' => $currentDay,
             'attendanceService' => $this->attendanceService,
@@ -41,11 +41,11 @@ class AdminAttendanceController extends Controller
         ]);
     }
 
-    public function detail($id)
+    public function show($id)
     {
         $attendance = Attendance::with('user', 'breaks')->findOrFail($id);
 
-        return view('admin.attendance-detail', [
+        return view('admin.attendance.show', [
             'attendance' => $attendance,
             'formattedBreaks' => $this->breakService->formatBreakSessions($attendance),
             'attendanceService' => $this->attendanceService,
@@ -63,7 +63,7 @@ class AdminAttendanceController extends Controller
         // 休憩情報を更新
         $this->updateBreaks($attendance, $request);
 
-        return redirect()->route('admin.attendance.detail', $id);
+        return redirect()->route('admin.attendance.show', $id);
     }
 
     private function updateAttendance($attendance, $date, $request)

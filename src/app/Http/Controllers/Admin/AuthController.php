@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 
-class AdminAuthController extends Controller
+class AuthController extends Controller
 {
-    public function showLoginForm()
+    public function create()
     {
         return view('admin.login');
     }
 
-    public function login(LoginRequest $request)
+    public function store(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 

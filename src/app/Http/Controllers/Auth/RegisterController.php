@@ -15,7 +15,7 @@ class RegisterController extends Controller
         $this->createNewUser = $createNewUser;
     }
 
-    public function register(RegisterRequest $request)
+    public function store(RegisterRequest $request)
     {
         $user = $this->createNewUser->create($request->validated());
 

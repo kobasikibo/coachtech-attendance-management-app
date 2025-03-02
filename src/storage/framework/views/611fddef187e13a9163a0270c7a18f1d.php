@@ -13,7 +13,7 @@
 </div>
 <?php endif; ?>
 
-<form method="POST" action="<?php echo e(route('admin.login.post')); ?>" novalidate>
+<form method="POST" action="<?php echo e(route('admin.login.store')); ?>" novalidate>
     <?php echo csrf_field(); ?>
 
     <div class="form-group">

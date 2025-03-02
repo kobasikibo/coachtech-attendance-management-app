@@ -22,12 +22,12 @@ class AttendanceController extends Controller
         $this->breakService = $breakService;
     }
 
-    public function show()
+    public function create()
     {
         $attendance = $this->attendanceService->getAttendanceForToday(Auth::id());
         $isAttendanceToday = $this->attendanceService->isAttendanceToday($attendance);
 
-        return view('attendance.show', compact('attendance', 'isAttendanceToday'));
+        return view('attendance.create', compact('attendance', 'isAttendanceToday'));
     }
 
     public function index(Request $request)
@@ -58,11 +58,11 @@ class AttendanceController extends Controller
         ]);
     }
 
-    public function detail($id)
+    public function show($id)
     {
         $attendance = Attendance::with('user', 'breaks')->findOrFail($id);
 
-        return view('attendance.detail', [
+        return view('attendance.show', [
             'attendance' => $attendance,
             'formattedBreaks' => $this->breakService->formatBreakSessions($attendance),
             'attendanceService' => $this->attendanceService,
@@ -80,7 +80,7 @@ class AttendanceController extends Controller
         // 休憩情報を更新
         $this->updateBreaks($attendance, $request);
 
-        return redirect()->route('attendance.detail', $id);
+        return redirect()->route('attendance.show', $id);
     }
 
     private function updateAttendance($attendance, $date, $request)

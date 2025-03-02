@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/attendance-show.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/attendance-create.css') }}" />
 @endsection
 
 @section('content')
@@ -44,5 +44,5 @@
 <div class="error">{{ session('error') }}</div>
 @endif
 
-<script src="{{ asset('js/attendance-show.js') }}"></script>
+<script src="{{ asset('js/attendance-create.js') }}"></script>
 @endsection

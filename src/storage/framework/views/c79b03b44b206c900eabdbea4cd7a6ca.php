@@ -16,7 +16,7 @@
     <header class="header">
         <div class="header-inner">
             <div class="header-container">
-                <a class="header-logo" href="<?php echo e(Route::currentRouteName() === 'login' ? route('admin.login') : (Route::currentRouteName() === 'admin.login' ? route('login') : route('attendance.show'))); ?>">
+                <a class="header-logo" href="<?php echo e(Route::currentRouteName() === 'login' ? route('admin.login.create') : (Route::currentRouteName() === 'admin.login' ? route('login') : route('attendance.create'))); ?>">
                     <img src="<?php echo e(asset('images/logo.svg')); ?>" alt="coachtechのロゴ">
                 </a>
             </div>
@@ -25,7 +25,7 @@
             $routeName = request()->route()->getName();
             ?>
 
-            <?php if(str_starts_with($routeName, 'admin.') && !in_array($routeName, ['login', 'register', 'admin.login'])): ?>
+            <?php if(str_starts_with($routeName, 'admin.') && !in_array($routeName, ['login', 'register', 'admin.login.create'])): ?>
             <div class="header-container">
                 <div class="header-links">
                     <a href="<?php echo e(route('admin.attendance.index')); ?>" class="link-attendance-list">勤怠一覧</a>
@@ -37,10 +37,10 @@
                     </form>
                 </div>
             </div>
-            <?php elseif(!in_array($routeName, ['login', 'register', 'admin.login'])): ?>
+            <?php elseif(!in_array($routeName, ['login', 'register', 'admin.login.create'])): ?>
             <div class="header-container">
                 <div class="header-links">
-                    <a href="<?php echo e(route('attendance.show')); ?>" class="link-attendance">勤怠</a>
+                    <a href="<?php echo e(route('attendance.create')); ?>" class="link-attendance">勤怠</a>
                     <a href="<?php echo e(route('attendance.index')); ?>" class="link-attendance-list">勤怠一覧</a>
                     <a href="<?php echo e(route('user.stamp_correction_request.index')); ?>" class="link-request">申請</a>
                     <form action="<?php echo e(route('logout')); ?>" method="POST" class="logout-form">

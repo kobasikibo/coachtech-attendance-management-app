@@ -33,7 +33,7 @@
             <td class="table-cell">{{ $attendance->remarks }}</td>
             <td class="table-cell">{{ \Carbon\Carbon::parse($attendance->updated_at)->translatedFormat('Y/m/d') }}</td>
             <td class="table-cell">
-                <a class="table-link" href="{{ route('attendance.detail', $attendance->id) }}">詳細</a>
+                <a class="table-link" href="{{ route('attendance.show', $attendance->id) }}">詳細</a>
             </td>
         </tr>
         @endforeach

@@ -49,7 +49,7 @@
             <td class="table-cell">{{ $breakService->formatBreakTime($attendance) }}</td>
             <td class="table-cell">{{ $attendanceService->formatWorkTime($attendance) }}</td>
             <td class="table-cell">
-                <a class="table-link" href="{{ route('admin.attendance.detail', $attendance->id) }}">詳細</a>
+                <a class="table-link" href="{{ route('admin.attendance.show', $attendance->id) }}">詳細</a>
             </td>
         </tr>
         @endforeach

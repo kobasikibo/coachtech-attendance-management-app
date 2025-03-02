@@ -47,11 +47,11 @@
             <td class="table-cell"><?php echo e($breakService->formatBreakTime($attendance)); ?></td>
             <td class="table-cell"><?php echo e($attendanceService->formatWorkTime($attendance)); ?></td>
             <td class="table-cell">
-                <a class="table-link" href="<?php echo e(route('admin.attendance.detail', $attendance->id)); ?>">詳細</a>
+                <a class="table-link" href="<?php echo e(route('admin.attendance.show', $attendance->id)); ?>">詳細</a>
             </td>
         </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </tbody>
 </table>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/resources/views/admin/attendance-index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/resources/views/admin/attendance/index.blade.php ENDPATH**/ ?>

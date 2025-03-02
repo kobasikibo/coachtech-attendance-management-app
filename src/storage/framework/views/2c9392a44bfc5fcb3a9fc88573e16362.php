@@ -47,7 +47,7 @@
             <td class="table-cell"><?php echo e($attendanceForDate ? $attendanceService->formatWorkTime($attendanceForDate) : ''); ?></td>
             <td class="table-cell">
                 <?php if($attendanceForDate): ?>
-                <a class="table-link" href="<?php echo e(route('attendance.detail', $attendanceForDate->id)); ?>">詳細</a>
+                <a class="table-link" href="<?php echo e(route('attendance.show', $attendanceForDate->id)); ?>">詳細</a>
                 <?php endif; ?>
             </td>
         </tr>

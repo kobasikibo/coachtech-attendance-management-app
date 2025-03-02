@@ -49,7 +49,7 @@
             <td class="table-cell">{{ $attendanceForDate ? $attendanceService->formatWorkTime($attendanceForDate) : '' }}</td>
             <td class="table-cell">
                 @if ($attendanceForDate)
-                <a class="table-link" href="{{ route('attendance.detail', $attendanceForDate->id) }}">詳細</a>
+                <a class="table-link" href="{{ route('attendance.show', $attendanceForDate->id) }}">詳細</a>
                 @endif
             </td>
         </tr>
