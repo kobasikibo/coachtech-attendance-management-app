@@ -62,7 +62,8 @@ body {
 
 .link-attendance,
 .link-attendance-list,
-.link-request {
+.link-request,
+.link-staff-list {
     text-decoration: none;
     color: rgba(255, 255, 255, 1);
     padding: 1.5% 5%;
@@ -72,7 +73,8 @@ body {
 
 .link-attendance:hover,
 .link-attendance-list:hover,
-.link-request:hover {
+.link-request:hover,
+.link-staff-list:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 0.2vw;
 }

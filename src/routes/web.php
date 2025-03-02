@@ -27,8 +27,8 @@ Route::get('email/verify/{id}/{hash}', function (CustomEmailVerificationRequest 
 Route::middleware(['auth'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'show'])->name('attendance.show');
     Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('attendance.index');
-    Route::get('/attendances/{id}', [AttendanceController::class, 'detail'])->name('attendance.detail');
-    Route::put('/attendances/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
+    Route::get('/attendance/{id}', [AttendanceController::class, 'detail'])->name('attendance.detail');
+    Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
 
     Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'index'])
     ->name('user.stamp_correction_request.index');
