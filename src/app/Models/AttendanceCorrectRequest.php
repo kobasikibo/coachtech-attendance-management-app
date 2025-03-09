@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class AttendanceCorrectRequest extends Model
 {
@@ -11,31 +12,44 @@ class AttendanceCorrectRequest extends Model
 
     protected $fillable = [
         'attendance_id',
-        'user_id',
-        'admin_id',
-        'requested_clock_in',
-        'requested_clock_out',
-        'requested_break_start',
-        'requested_break_end',
-        'status',
+        'clock_in',
+        'clock_out',
         'remarks',
+        'status',
     ];
+
+    public const STATUS_PENDING = '承認待ち';
+    public const STATUS_APPROVED = '承認済み';
 
     public function attendance()
     {
         return $this->belongsTo(Attendance::class);
     }
 
-    public function user()
+    public function breakCorrectRequests()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(BreakCorrectRequest::class);
     }
 
-    public function admin()
+    public function scopeByUser($query, $userId)
     {
-        return $this->belongsTo(User::class, 'admin_id');
+        return $query->whereHas('attendance', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        });
     }
 
-    public const STATUS_PENDING = '承認待ち';
-    public const STATUS_APPROVED = '承認済み';
+    public function scopeByStatus($query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    public function formatClockIn()
+    {
+        return $this->clock_in ? Carbon::parse($this->clock_in)->format('H:i') : '';
+    }
+
+    public function formatClockOut()
+    {
+        return $this->clock_out ? Carbon::parse($this->clock_out)->format('H:i') : '';
+    }
 }

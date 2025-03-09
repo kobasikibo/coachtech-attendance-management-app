@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete;
             $table->enum('status', ['勤務外', '出勤中', '休憩中', '退勤済'])->default('勤務外');
             $table->enum('approval_status', ['登録済み', '承認待ち', '承認済み'])->default('登録済み');
             $table->date('date')->nullable();

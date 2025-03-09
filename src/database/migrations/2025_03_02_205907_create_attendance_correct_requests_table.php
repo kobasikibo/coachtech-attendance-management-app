@@ -10,14 +10,10 @@ return new class extends Migration {
         Schema::create('attendance_correct_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('admin_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->time('requested_clock_in')->nullable();
-            $table->time('requested_clock_out')->nullable();
-            $table->time('requested_break_start')->nullable();
-            $table->time('requested_break_end')->nullable();
-            $table->string('status')->default('承認待ち');
-            $table->text('reason')->nullable();
+            $table->timestamp('clock_in');
+            $table->timestamp('clock_out');
+            $table->text('remarks');
+            $table->enum('status', ['承認待ち', '承認済み'])->default('承認待ち');
             $table->timestamps();
         });
     }

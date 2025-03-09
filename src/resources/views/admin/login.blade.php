@@ -14,7 +14,7 @@
 </div>
 @endif
 
-<form method="POST" action="{{ route('admin.login.store') }}" novalidate>
+<form method="POST" action="{{ route('admin.login') }}" novalidate>
     @csrf
 
     <div class="form-group">

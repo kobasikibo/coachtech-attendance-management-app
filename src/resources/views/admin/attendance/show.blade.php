@@ -26,8 +26,8 @@
                 <label class="form-label">日付</label>
             </div>
             <div class="form-input-container">
-                <p class="attendance-year">{{ $attendanceService->getYearFromClockIn($attendance) }}</p>
-                <p class="attendance-date">{{ $attendanceService->getMonthDayFromClockIn($attendance) }}</p>
+                <p class="attendance-year">{{ $attendanceService->getYearFromDate($attendance) }}</p>
+                <p class="attendance-date">{{ $attendanceService->getMonthDayFromDate($attendance) }}</p>
             </div>
         </div>
 

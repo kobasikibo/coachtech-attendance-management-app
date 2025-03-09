@@ -18,10 +18,6 @@ class AttendanceFactory extends Factory
                 Attendance::APPROVAL_PENDING,
                 Attendance::APPROVAL_APPROVED,
             ]),
-            'date' => $this->faker->date(),
-            'clock_in' => $this->faker->dateTimeThisYear(),
-            'clock_out' => $this->faker->dateTimeThisYear(),
-            'remarks' => '遅延のため',
         ];
     }
 }

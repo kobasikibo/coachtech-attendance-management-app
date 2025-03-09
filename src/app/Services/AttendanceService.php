@@ -44,14 +44,14 @@ class AttendanceService
         return '';
     }
 
-    public function getYearFromClockIn(Attendance $attendance)
+    public function getYearFromDate(Attendance $attendance)
     {
-        return Carbon::parse($attendance->clock_in)->format('Y年');
+        return Carbon::parse($attendance->date)->format('Y年');
     }
 
-    public function getMonthDayFromClockIn(Attendance $attendance)
+    public function getMonthDayFromDate(Attendance $attendance)
     {
-        return Carbon::parse($attendance->clock_in)->format('n月j日');
+        return Carbon::parse($attendance->date)->format('n月j日');
     }
 
     public function getAttendanceForToday($userId)

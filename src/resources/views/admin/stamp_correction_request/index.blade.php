@@ -25,15 +25,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($attendances as $attendance)
+        @foreach($correctionRequests as $correction)
         <tr>
-            <td class="table-cell">{{ $attendance->approval_status }}</td>
-            <td class="table-cell">{{ $attendance->user->name }}</td>
-            <td class="table-cell">{{ \Carbon\Carbon::parse($attendance->date)->translatedFormat('Y/m/d') }}</td>
-            <td class="table-cell">{{ $attendance->remarks }}</td>
-            <td class="table-cell">{{ \Carbon\Carbon::parse($attendance->updated_at)->translatedFormat('Y/m/d') }}</td>
+            <td class="table-cell">{{ $correction->status }}</td>
+            <td class="table-cell">{{ $correction->attendance->user->name }}</td>
+            <td class="table-cell">{{ \Carbon\Carbon::parse($correction->attendance->date)->translatedFormat('Y/m/d') }}</td>
+            <td class="table-cell">{{ $correction->remarks }}</td>
+            <td class="table-cell">{{ \Carbon\Carbon::parse($correction->updated_at)->translatedFormat('Y/m/d') }}</td>
             <td class="table-cell">
-                <a class="table-link" href="{{ route('admin.stamp_correction_request.show', $attendance->id) }}">詳細</a>
+                <a class="table-link" href="{{ route('admin.stamp_correction_request.show', $correction->id) }}">詳細</a>
             </td>
         </tr>
         @endforeach

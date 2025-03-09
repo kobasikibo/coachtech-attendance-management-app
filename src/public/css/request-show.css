@@ -1,0 +1,138 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 60%;
+    margin: 0 auto;
+    font-weight: 700;
+}
+
+h1 {
+    text-align: left;
+    font-size: 1.875vw;
+    margin-top: 10%;
+    padding-left: 3%;
+    border-left: 0.5vw solid rgba(0, 0, 0, 1);;
+}
+
+.attendance-detail {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 1);
+    margin-top: 5vw;
+    border-radius: 0.6vw;
+    font-size: 1vw;
+    letter-spacing: 0.1em;
+}
+
+.attendance-detail__name,
+.attendance-detail__date {
+    display: flex;
+    padding: 1.8vw 1.6vw;
+    border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
+}
+
+.attendance-detail__clock,
+.attendance-detail__break {
+    flex-direction: column;
+    padding: 1.8vw 1.6vw;
+    border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
+}
+
+.attendance-detail__remarks {
+    flex-direction: column;
+    padding: 1.8vw 1.6vw;
+}
+
+.attendance-detail__row {
+    display: flex;
+}
+
+.attendance-detail__label-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    padding-left: 3vw;
+    justify-content: center;
+}
+
+.attendance-detail__label {
+    color: rgba(115, 115, 115, 1);
+}
+
+.attendance-detail__content {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+}
+
+.attendance-detail__left,
+.attendance-detail__right {
+    color: rgba(0, 0, 0, 1);
+    text-align: center;
+    padding: 0.2vw 0.5vw;
+    width: 6vw;
+}
+
+.attendance-detail__left {
+    margin-right: 3.5vw;
+}
+
+.attendance-detail__right {
+    margin-left: 3.5vw;
+}
+
+.attendance-detail__large {
+    color: rgba(0, 0, 0, 1);
+    text-align: center;
+    padding: 0.2vw 0.5vw;
+    width: 6vw;
+    white-space: nowrap;
+}
+
+.name,
+.year {
+    margin-left: 1.2vw;
+}
+
+.date {
+    margin-left: 9.7vw;
+}
+
+.alert {
+    color: rgba(255, 0, 0, 0.5);
+    font-size: 1.125vw;
+    font-weight: 800;
+    margin-top: 1vw;
+    margin-bottom: 10%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-submit {
+    width: 14%;
+    margin-top: 7%;
+    margin-bottom: 7%;
+    padding: 0.6vw;
+    background-color: rgba(0, 0, 0, 1);
+    color: white;
+    font-size: 1.375vw;
+    font-weight: 700;
+    text-align: center;
+    border: none;
+    border-radius: 0.3vw;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    margin-left: auto;
+}
+
+.btn-submit:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.btn-submit:disabled {
+    background-color: rgba(105, 105, 105, 1);
+    cursor: default;
+}
+

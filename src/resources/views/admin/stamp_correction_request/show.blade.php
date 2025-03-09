@@ -1,92 +1,92 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/attendance-show.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/request-show.css') }}" />
 @endsection
 
 @section('content')
 <h1>勤怠詳細</h1>
 
-<form method="POST" action="{{ route('attendance.update', $attendance->id) }}">
+<form method="POST" action="{{ route('admin.stamp_correction_request.approve', $correctionRequest->id) }}">
     @csrf
     @method('PUT')
 
-    <div class="form-group">
-        <div class="form-name">
-            <div class="form-label-container">
-                <label class="form-label">名前</label>
+    <div class="attendance-detail">
+        <div class="attendance-detail__name">
+            <div class="attendance-detail__label-wrapper">
+                <label class="attendance-detail__label">名前</label>
             </div>
-            <div class="form-input-container">
+            <div class="attendance-detail__content">
                 <p class="name">{{ $attendance->user->name ?? '' }}</p>
             </div>
         </div>
 
-        <div class="form-date">
-            <div class="form-label-container">
-                <label class="form-label">日付</label>
+        <div class="attendance-detail__date">
+            <div class="attendance-detail__label-wrapper">
+                <label class="attendance-detail__label">日付</label>
             </div>
-            <div class="form-input-container">
-                <p class="attendance-year">{{ $attendanceService->getYearFromClockIn($attendance) }}</p>
-                <p class="attendance-date">{{ $attendanceService->getMonthDayFromClockIn($attendance) }}</p>
+            <div class="attendance-detail__content">
+                <p class="year">{{ $attendanceService->getYearFromDate($attendance) }}</p>
+                <p class="date">{{ $attendanceService->getMonthDayFromDate($attendance) }}</p>
             </div>
         </div>
 
-        <div class="form-clock">
-            <div class="form-row">
-                <div class="form-label-container">
-                    <label class="form-label">出勤・退勤</label>
+        <div class="attendance-detail__clock">
+            <div class="attendance-detail__row">
+                <div class="attendance-detail__label-wrapper">
+                    <label class="attendance-detail__label">出勤・退勤</label>
                 </div>
-                <div class="form-input-container">
-                    <p class="form-control-left">{{ $attendanceService->formatClockIn($attendance) }}</p>
+                <div class="attendance-detail__content">
+                    <p class="attendance-detail__left">{{ $correctionRequest->formatClockIn() }}</p>
                     〜
-                    <p class="form-control-right">{{ $attendanceService->formatClockOut($attendance) }}</p>
+                    <p class="attendance-detail__right">{{ $correctionRequest->formatClockOut() }}</p>
                 </div>
             </div>
         </div>
 
         @forelse ($formattedBreaks as $index => $break)
-        <div class="form-break">
-            <div class="form-row">
-                <div class="form-label-container">
-                    <label class="form-label">休憩 {{ $index + 1 }}</label>
+        <div class="attendance-detail__break">
+            <div class="attendance-detail__row">
+                <div class="attendance-detail__label-wrapper">
+                    <label class="attendance-detail__label">{{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}</label>
                 </div>
-                <div class="form-input-container">
-                    <p class="form-control-left">{{ $break['break_start'] }}</p>
+                <div class="attendance-detail__content">
+                    <p class="attendance-detail__left">{{ $break['break_start'] ?? '-' }}</p>
                     〜
-                    <p class="form-control-right">{{ $break['break_end'] }}</p>
+                    <p class="attendance-detail__right">{{ $break['break_end'] ?? '-' }}</p>
                 </div>
             </div>
         </div>
         @empty
-        <div class="form-break">
-            <div class="form-row">
-                <div class="form-label-container">
-                    <label class="form-label">休憩</label>
+        <div class="attendance-detail__break">
+            <div class="attendance-detail__row">
+                <div class="attendance-detail__label-wrapper">
+                    <label class="attendance-detail__label">休憩</label>
                 </div>
-                <div class="form-input-container">
-                    <p class="form-control-left">-</p>
+                <div class="attendance-detail__content">
+                    <p class="attendance-detail__left">-</p>
                     〜
-                    <p class="form-control-right">-</p>
+                    <p class="attendance-detail__right">-</p>
                 </div>
             </div>
         </div>
         @endforelse
 
-        <div class="form-remarks">
-            <div class="form-row-large">
-                <div class="form-label-container">
-                    <label class="form-label">備考</label>
+        <div class="attendance-detail__remarks">
+            <div class="attendance-detail__row">
+                <div class="attendance-detail__label-wrapper">
+                    <label class="attendance-detail__label">備考</label>
                 </div>
-                <div class="form-input-container">
-                    <p class="form-control-large">{{ $attendance->remarks }}</p>
+                <div class="attendance-detail__content">
+                    <p class="attendance-detail__large">{{ $correctionRequest->remarks }}</p>
                 </div>
             </div>
         </div>
     </div>
 
-<button type="submit" class="btn-submit {{ $attendance->approval_status === '承認済み' ? 'approved' : '' }}"
-    {{ $attendance->approval_status === '承認済み' ? 'disabled' : '' }}>
-    {{ $attendance->approval_status === '承認済み' ? '承認済み' : '承認' }}
-</button>
+    <button type="submit" class="btn-submit {{ $attendance->approval_status === '承認済み' ? 'approved' : '' }}"
+        {{ $attendance->approval_status === '承認済み' ? 'disabled' : '' }}>
+        {{ $attendance->approval_status === '承認済み' ? '承認済み' : '承認' }}
+    </button>
 
-@endsection
+    @endsection

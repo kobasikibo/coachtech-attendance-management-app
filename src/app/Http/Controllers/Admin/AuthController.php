@@ -13,7 +13,7 @@ class AuthController extends Controller
         return view('admin.login');
     }
 
-    public function store(LoginRequest $request)
+    public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 

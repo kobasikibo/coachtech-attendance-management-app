@@ -22,4 +22,9 @@ class BreakModel extends Model
     {
         return $this->belongsTo(Attendance::class);
     }
+
+    public function breakCorrections()
+    {
+        return $this->hasMany(BreakCorrectRequest::class, 'break_id');
+    }
 }
