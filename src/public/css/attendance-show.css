@@ -111,7 +111,6 @@ input:disabled {
     line-height: 1.5em;
 }
 
-
 textarea:disabled {
     border: none;
     cursor: default;

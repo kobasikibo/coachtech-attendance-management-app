@@ -1,0 +1,25 @@
+.attendance-table {
+    margin-bottom: 5%;
+}
+
+.btn-export {
+    width: 17%;
+    margin-bottom: 10%;
+    padding: 0.5vw;
+    background-color: rgba(0, 0, 0, 1);
+    color: white;
+    font-size: 1.2vw;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 0.3vw;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: block;
+    margin-left: auto;
+}
+
+.btn-export:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+}

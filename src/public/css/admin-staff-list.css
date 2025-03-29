@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 60%;
+    margin: 0 auto;
+    font-weight: 700;
+}
+
+h1 {
+    text-align: left;
+    font-size: 1.875vw;
+    margin-top: 10%;
+    padding-left: 3%;
+    border-left: 0.5vw solid #000;
+}
+
+.staff-table {
+    font-size: 1vw;
+    width: 100%;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 0.6vw;
+    color: rgba(115, 115, 115, 1);
+    letter-spacing: 0.1em;
+    margin-top: 8%;
+    margin-bottom: 10%;
+}
+
+.table-header,
+.table-cell {
+    padding: 0.5vw 3vw 0.5vw 2vw;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 0.2vw solid rgba(240, 239, 242, 1);
+}
+
+.table-header:first-child,
+.table-cell:first-child {
+    padding-left: 10vw;
+    padding-right: 0;
+}
+
+.table-header:last-child,
+.table-cell:last-child {
+    padding-left: 0;
+    padding-right: 10vw;
+}
+
+.link-attendance-monthly {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 1);
+}

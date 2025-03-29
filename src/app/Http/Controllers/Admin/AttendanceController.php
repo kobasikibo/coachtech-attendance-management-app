@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakModel;
 use App\Services\AttendanceService;
@@ -101,5 +102,78 @@ class AttendanceController extends Controller
                 ]);
             }
         }
+    }
+
+    public function indexStaffAttendance(Request $request, $id)
+    {
+        $currentMonth = Carbon::parse($request->query('month', now()->format('Y-m')));
+
+        $startOfMonth = $currentMonth->copy()->startOfMonth();
+        $endOfMonth = $currentMonth->copy()->endOfMonth();
+
+        $previousMonth = $currentMonth->copy()->subMonth()->format('Y-m');
+        $nextMonth = $currentMonth->copy()->addMonth()->format('Y-m');
+
+        $attendances = Attendance::where('user_id', $id)
+            ->whereBetween('date', [$startOfMonth, $endOfMonth])
+            ->orderBy('date', 'asc')
+            ->get();
+
+        $user = User::find($id);
+
+        $dates = $this->attendanceService->getAllDatesOfMonth($currentMonth);
+
+        return view('admin.attendance.staff', [
+            'attendances' => $attendances,
+            'user' => $user,
+            'currentMonth' => $currentMonth,
+            'previousMonth' => $previousMonth,
+            'nextMonth' => $nextMonth,
+            'breakService' => $this->breakService,
+            'attendanceService' => $this->attendanceService,
+            'dates' => $dates,
+        ]);
+    }
+
+    public function exportCsv($id, Request $request, AttendanceService $attendanceService, BreakService $breakService)
+    {
+        $month = $request->query('month', now()->format('Y-m'));
+
+        // ユーザー情報を取得
+        $user = User::findOrFail($id);
+
+        // 該当月の勤怠データ取得
+        $attendances = Attendance::where('user_id', $id)
+            ->where('date', 'like', $month . '%')
+            ->get();
+
+        $safeUserName = str_replace([' ', '　'], '_', $user->name);
+        $fileName = "attendance_{$safeUserName}_{$month}.csv";
+
+        $headers = [
+            "Content-Type" => "text/csv; charset=UTF-8",
+            "Content-Disposition" => "attachment; filename={$fileName}",
+        ];
+
+        $callback = function () use ($attendances, $attendanceService, $breakService) {
+            $handle = fopen('php://output', 'w');
+            fputs($handle, "\xEF\xBB\xBF"); // UTF-8 BOM 追加
+
+            fputcsv($handle, ['日付', '出勤', '退勤', '休憩', '合計']);
+
+            foreach ($attendances as $attendance) {
+                fputcsv($handle, [
+                    Carbon::parse($attendance->date)->format('Y/m/d (D)'),
+                    $attendanceService->formatClockIn($attendance),
+                    $attendanceService->formatClockOut($attendance),
+                    $breakService->formatBreakTime($attendance),
+                    $attendanceService->formatWorkTime($attendance),
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 }

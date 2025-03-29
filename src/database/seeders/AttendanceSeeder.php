@@ -27,7 +27,7 @@ class AttendanceSeeder extends Seeder
                         'clock_out' => $currentDate->copy()->setTime(18, 0),
                     ]);
 
-                    BreakModel::factory()->create([
+                    $break = BreakModel::factory()->create([
                         'attendance_id' => $attendance->id,
                         'break_start' => $currentDate->copy()->setTime(12, 0),
                         'break_end' => $currentDate->copy()->setTime(13, 0),
@@ -44,12 +44,12 @@ class AttendanceSeeder extends Seeder
 
                         BreakCorrectRequest::create([
                             'attendance_correct_request_id' => $attendanceCorrectRequest->id,
+                            'break_id' => $break->id,
                             'break_start' => $currentDate->copy()->setTime(12, 0),
                             'break_end' => $currentDate->copy()->setTime(14, 0),
                         ]);
-                    }
 
-                    elseif ($attendance->approval_status === Attendance::APPROVAL_APPROVED) {
+                    } elseif ($attendance->approval_status === Attendance::APPROVAL_APPROVED) {
                         $attendanceCorrectRequest = AttendanceCorrectRequest::create([
                             'attendance_id' => $attendance->id,
                             'clock_in' => $attendance->clock_in,
@@ -60,8 +60,9 @@ class AttendanceSeeder extends Seeder
 
                         BreakCorrectRequest::create([
                             'attendance_correct_request_id' => $attendanceCorrectRequest->id,
-                            'break_start' => $attendance->break_start,
-                            'break_end' => $attendance->break_end,
+                            'break_id' => $break->id,
+                            'break_start' => $break->break_start,
+                            'break_end' => $break->break_end,
                         ]);
                     }
 

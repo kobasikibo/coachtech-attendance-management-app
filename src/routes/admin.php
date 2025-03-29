@@ -12,6 +12,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
     Route::get('/staff/list', [StaffController::class, 'index'])->name('staff.index');
     Route::get('/attendance/staff/{id}', [AttendanceController::class, 'indexStaffAttendance'])->name('attendance.staff');
+    Route::get('admin/attendance/{id}/csv', [AttendanceController::class, 'exportCsv'])->name('attendance.export');
 
     Route::get('/stamp_correction_request/list', [StampCorrectionRequestController::class, 'index'])
     ->name('stamp_correction_request.index');
