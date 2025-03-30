@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use App\Models\Attendance;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use App\Models\User;
-use App\Models\Attendance;
 use Carbon\Carbon;
 
 class AttendanceIndexTest extends TestCase
