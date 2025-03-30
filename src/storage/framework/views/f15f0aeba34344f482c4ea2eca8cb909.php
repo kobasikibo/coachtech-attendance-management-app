@@ -9,29 +9,29 @@
 
 </div>
 
-<div class="date"><?php echo e(now()->translatedFormat('Y年n月j日(D)')); ?></div>
+<div class="date"><?php echo now()->translatedFormat('Y年n月j日(D)'); ?></div>
 
-<div class="current-time"></div>
+<div class="current-time"><?php echo e(now()->format('H:i')); ?></div>
 
 <div class="btn-container">
     <?php if(!$attendance || !$isAttendanceToday || $attendance->status === '勤務外'): ?>
     <form action="<?php echo e(route('attendance.clockIn')); ?>" method="POST">
         <?php echo csrf_field(); ?>
-        <button type="submit" class="btn-submit">出勤</button>
+        <button type="submit" class="btn-submit-clock-in">出勤</button>
     </form>
     <?php elseif($attendance->status === '出勤中'): ?>
     <form action="<?php echo e(route('attendance.clockOut')); ?>" method="POST">
         <?php echo csrf_field(); ?>
-        <button type="submit" class="btn-submit">退勤</button>
+        <button type="submit" class="btn-submit-clock-out">退勤</button>
     </form>
     <form action="<?php echo e(route('attendance.startBreak')); ?>" method="POST">
         <?php echo csrf_field(); ?>
-        <button type="submit" class="btn-submit-brake">休憩入</button>
+        <button type="submit" class="btn-submit-break-start">休憩入</button>
     </form>
     <?php elseif($attendance->status === '休憩中'): ?>
     <form action="<?php echo e(route('attendance.endBreak')); ?>" method="POST">
         <?php echo csrf_field(); ?>
-        <button type="submit" class="btn-submit-brake">休憩戻</button>
+        <button type="submit" class="btn-submit-break-end">休憩戻</button>
     </form>
     <?php endif; ?>
 </div>

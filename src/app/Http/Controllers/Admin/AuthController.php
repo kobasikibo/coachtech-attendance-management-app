@@ -21,7 +21,9 @@ class AuthController extends Controller
             return redirect()->route('admin.attendance.index');
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials']);
+        return back()->withErrors([
+            'email' => 'ログイン情報が登録されていません',
+        ]);
     }
 
     public function logout()

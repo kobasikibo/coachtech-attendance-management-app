@@ -36,7 +36,8 @@
     gap: 5vw;
 }
 
-.btn-submit {
+.btn-submit-clock-in,
+.btn-submit-clock-out {
     width: 100%;
     margin-top: 4vw;
     margin-right: 7vw;
@@ -53,11 +54,13 @@
     white-space: nowrap;
 }
 
-.btn-submit:hover {
+.btn-submit-clock-in:hover,
+.btn-submit-clock-out:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-.btn-submit-brake {
+.btn-submit-break-start,
+.btn-submit-break-end {
     width: 100%;
     margin-top: 4vw;
     margin-right: 5vw;
@@ -74,7 +77,8 @@
     white-space: nowrap;
 }
 
-.btn-submit-brake:hover {
+.btn-submit-break-start:hover,
+.btn-submit-break-end:hover {
     background-color: rgba(255, 255, 255, 1.4);
 }
 
