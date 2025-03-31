@@ -8,7 +8,6 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\Attendance;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Carbon\Carbon;
 
 class AdminAttendanceDetailTest extends TestCase
 {
@@ -82,8 +81,8 @@ class AdminAttendanceDetailTest extends TestCase
                 'clock_out' => '18:00',
                 'breaks' => [
                     [
-                        'break_start' => '18:01',  // 休憩開始時間
-                        'break_end' => '18:02'     // 休憩終了時間
+                        'break_start' => '18:01',
+                        'break_end' => '18:02'
                     ]
                 ],
                 'remarks' => '休憩開始時間が退勤時間より後になっているデータ',
@@ -106,8 +105,8 @@ class AdminAttendanceDetailTest extends TestCase
                 'clock_out' => '18:00',
                 'breaks' => [
                     [
-                        'break_start' => '17:30',  // 休憩開始時間
-                        'break_end' => '18:30'     // 休憩終了時間
+                        'break_start' => '17:30',
+                        'break_end' => '18:30'
                     ]
                 ],
                 'remarks' => '休憩終了時間が退勤時間より後になっているデータ',
