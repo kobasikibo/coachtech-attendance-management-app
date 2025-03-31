@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakModel;
@@ -9,8 +11,6 @@ use App\Models\Admin;
 use App\Models\AttendanceCorrectRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use PHPUnit\Framework\Attributes\Test;
 use Carbon\Carbon;
 
 class AttendanceRequestTest extends TestCase
@@ -133,7 +133,6 @@ class AttendanceRequestTest extends TestCase
         $attendanceCorrectRequest = AttendanceCorrectRequest::where('attendance_id', $this->attendance->id)->first();
 
         // テスト用の管理者ユーザーを作成する
-        /** @var Authenticatable $adminUser */
         $adminUser = Admin::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
@@ -212,7 +211,6 @@ class AttendanceRequestTest extends TestCase
         $this->assertCount(3, $attendanceCorrectRequests);
 
         // テスト用の管理者ユーザーを作成する
-        /** @var Authenticatable $adminUser */
         $adminUser = Admin::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',

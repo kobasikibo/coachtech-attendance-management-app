@@ -26,11 +26,11 @@ class AttendanceController extends Controller
     public function index(Request $request)
     {
         // 現在の日付を取得
-        $currentDay = $request->query('clock_in', now()->format('Y-m-d'));
+        $currentDay = $request->query('date', now()->format('Y-m-d'));
 
         // 管理者は全ユーザーの勤怠情報を取得する
         $attendances = Attendance::with('user')
-        ->whereDate('clock_in', $currentDay)
+        ->whereDate('date', $currentDay)
             ->orderBy('user_id')
             ->get();
 

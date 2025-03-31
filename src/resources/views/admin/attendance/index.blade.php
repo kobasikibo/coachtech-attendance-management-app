@@ -11,7 +11,7 @@
 <div class="date-navigation">
     <div class="navigation-item">
         <img src="{{ asset('images/icons/selector-left.png') }}" alt="前日へ移動" class="selector-icon">
-        <a class="navigation-link" href="{{ route('admin.attendance.index', ['clock_in' => \Carbon\Carbon::parse($currentDay)->subDay()->format('Y-m-d')]) }}">前日</a>
+        <a class="navigation-link" href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($currentDay)->subDay()->format('Y-m-d')]) }}">前日</a>
     </div>
 
     <div class="navigation-item">
@@ -21,7 +21,7 @@
 
     <div class="navigation-item">
         @if($currentDay < now()->format('Y-m-d'))
-            <a class="navigation-link" href="{{ route('admin.attendance.index', ['clock_in' => \Carbon\Carbon::parse($currentDay)->addDay()->format('Y-m-d')]) }}">翌日</a>
+            <a class="navigation-link" href="{{ route('admin.attendance.index', ['date' => \Carbon\Carbon::parse($currentDay)->addDay()->format('Y-m-d')]) }}">翌日</a>
             <img src="{{ asset('images/icons/selector-right.png') }}" alt="翌日へ移動" class="selector-icon">
             @else
             <span class="placeholder">翌日</span>
