@@ -13,7 +13,7 @@
 
     <div class="navigation-item">
         <img src="<?php echo e(asset('images/icons/calendar-icon.png')); ?>" alt="カレンダー" class="calendar-icon">
-        <span class="navigation-month"><?php echo e(\Carbon\Carbon::parse($currentMonth)->format('Y/m')); ?></span>
+        <span class="navigation-month"><?php echo e($currentMonth->format('Y/m')); ?></span>
     </div>
 
     <div class="navigation-item <?php echo e($currentMonth->format('Y-m') ==  now()->format('Y-m') ? 'invisible' : ''); ?>">

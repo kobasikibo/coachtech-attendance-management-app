@@ -4,20 +4,13 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
-use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakModel;
-use App\Models\Admin;
 use App\Models\AttendanceCorrectRequest;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Carbon\Carbon;
 
 class AttendanceRequestTest extends TestCase
 {
-    use RefreshDatabase;
-
-    private $user;
     private $attendance;
     private $break;
 
@@ -25,9 +18,7 @@ class AttendanceRequestTest extends TestCase
     {
         parent::setUp();
 
-        /** @var Authenticatable $user */
-        $this->user = User::factory()->create(); // テスト用のユーザーを作成
-        $this->actingAs($this->user); // テスト用のユーザーでログインする
+        $this->actingAs($this->user);
 
         // テスト用に「特定の日付」の勤怠データを作成
         $date = Carbon::now();
@@ -45,26 +36,23 @@ class AttendanceRequestTest extends TestCase
         ]);
     }
 
-    // 出勤時間が退勤時間より後になっている場合、エラーメッセージが表示される
     #[Test]
     public function clock_in_cannot_be_after_clock_out()
     {
-        // 出勤時間を退勤時間より後に設定する
+        // 出勤時間が退勤時間より後になっている場合、エラーメッセージが表示される
         $response = $this->put(route('attendance.request', $this->attendance->id), [
             'clock_in' => '19:00',
             'clock_out' => '18:00',
             'remarks' => '勤怠修正'
         ]);
 
-        // バリデーションメッセージが表示される
         $response->assertSessionHasErrors(['clock_in' => '出勤時間もしくは退勤時間が不適切な値です']);
     }
 
-    // 休憩開始時間が退勤時間より後になっている場合、エラーメッセージが表示される
     #[Test]
     public function break_start_cannot_be_after_clock_out()
     {
-        // 休憩開始時間を退勤時間より後に設定する
+        // 休憩開始時間が退勤時間より後になっている場合、エラーメッセージが表示される
         $response = $this->put(route('attendance.request', $this->attendance->id), [
             'clock_in' => '09:00',
             'clock_out' => '18:00',
@@ -77,15 +65,13 @@ class AttendanceRequestTest extends TestCase
             'remarks' => '勤怠修正'
         ]);
 
-        // バリデーションメッセージが表示される
         $response->assertSessionHasErrors(['breaks.0.break_end' => '休憩時間が勤務時間外です']);
     }
 
-    // 休憩終了時間が退勤時間より後になっている場合、エラーメッセージが表示される
     #[Test]
     public function break_end_cannot_be_after_clock_out()
     {
-        // 休憩終了時間を退勤時間より後に設定する
+        // 休憩終了時間が退勤時間より後になっている場合、エラーメッセージが表示される
         $response = $this->put(route('attendance.request', $this->attendance->id), [
             'clock_in' => '09:00',
             'clock_out' => '18:00',
@@ -98,15 +84,13 @@ class AttendanceRequestTest extends TestCase
             'remarks' => '勤怠修正'
         ]);
 
-        // バリデーションメッセージが表示される
         $response->assertSessionHasErrors(['breaks.0.break_end' => '休憩時間が勤務時間外です']);
     }
 
-    // 備考欄が未入力の場合のエラーメッセージが表示される
     #[Test]
     public function remarks_is_required()
     {
-        // 備考欄を未入力のまま保存処理をする
+        // 備考欄が未入力の場合のエラーメッセージが表示される
         $response = $this->put(route('attendance.request', $this->attendance->id), [
             'clock_in' => '09:00',
             'clock_out' => '18:00',
@@ -114,32 +98,22 @@ class AttendanceRequestTest extends TestCase
             'break_end' => '13:00',
         ]);
 
-        // バリデーションメッセージが表示される
         $response->assertSessionHasErrors(['remarks' => '備考を記入してください']);
     }
 
-    // 修正申請処理が実行される
     #[Test]
     public function attendance_request_is_submitted()
     {
-        // 勤怠詳細を修正し保存処理をする
+        // 修正申請処理が実行される
         $response = $this->put(route('attendance.request', $this->attendance->id), [
             'clock_in' => '09:00',
             'clock_out' => '20:00',
             'remarks' => '勤怠修正'
         ]);
 
-        // 勤怠修正リクエストが自動的に作成されることを確認する
         $attendanceCorrectRequest = AttendanceCorrectRequest::where('attendance_id', $this->attendance->id)->first();
 
-        // テスト用の管理者ユーザーを作成する
-        $adminUser = Admin::create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('adminpass'),
-            'email_verified_at' => now(),
-        ]);
-        $this->actingAs($adminUser, 'admin'); // テスト用の管理者ユーザーでログインする
+        $this->actingAs($this->adminUser, 'admin');
 
         // 承認画面を確認する
         $response = $this->get(route( 'admin.stamp_correction_request.show', $attendanceCorrectRequest->id));
@@ -210,16 +184,7 @@ class AttendanceRequestTest extends TestCase
         $attendanceCorrectRequests = AttendanceCorrectRequest::where('attendance_id', $this->attendance->id)->get();
         $this->assertCount(3, $attendanceCorrectRequests);
 
-        // テスト用の管理者ユーザーを作成する
-        $adminUser = Admin::create([
-            'name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('adminpass'),
-            'email_verified_at' => now(),
-        ]);
-        $this->actingAs($adminUser,
-            'admin'
-        ); // テスト用の管理者ユーザーでログインする
+        $this->actingAs($this->adminUser, 'admin');
 
         // すべての修正申請を承認する
         foreach ($attendanceCorrectRequests as $request) {

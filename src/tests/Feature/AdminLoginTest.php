@@ -2,33 +2,17 @@
 
 namespace Tests\Feature;
 
-use App\Models\Admin;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class AdminLoginTest extends TestCase
 {
-    use RefreshDatabase;
-
-    protected $admin;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->admin = Admin::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password123'),
-        ]);
-    }
-
-    #[Test]
     public function email_is_required_to_login()
     {
+        // メールアドレスが未入力の場合、バリデーションメッセージが表示される
         $response = $this->post(route('admin.login'), [
             'email' => '',
-            'password' => 'password123',
+            'password' => 'admin123',
         ]);
 
         $response->assertSessionHasErrors(['email' => 'メールアドレスを入力してください']);
@@ -37,6 +21,7 @@ class AdminLoginTest extends TestCase
     #[Test]
     public function password_is_required_to_login()
     {
+        // パスワードが未入力の場合、バリデーションメッセージが表示される
         $response = $this->post(route('admin.login'), [
             'email' => 'admin@example.com',
             'password' => '',
@@ -48,9 +33,10 @@ class AdminLoginTest extends TestCase
     #[Test]
     public function incorrect_credentials_show_validation_error()
     {
+        // 登録内容と一致しない場合、バリデーションメッセージが表示される
         $response = $this->post(route('admin.login'), [
             'email' => 'wrong@example.com',
-            'password' => 'wrongpassword',
+            'password' => 'wrong_password',
         ]);
 
         $response->assertSessionHasErrors(['email' => 'ログイン情報が登録されていません']);

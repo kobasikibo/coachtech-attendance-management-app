@@ -2,15 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use App\Models\User;
 
 class LoginTest extends TestCase
 {
-    use RefreshDatabase;
-
     #[Test]
     public function email_is_required_to_login()
     {

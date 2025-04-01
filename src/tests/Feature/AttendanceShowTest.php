@@ -2,20 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\Attendance;
-use App\Models\BreakModel;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use App\Models\Attendance;
+use App\Models\BreakModel;
 use Carbon\Carbon;
 
 class AttendanceShowTest extends TestCase
 {
-    use RefreshDatabase;
-
-    private $user;
     private $attendance;
     private $break;
 
@@ -23,8 +17,6 @@ class AttendanceShowTest extends TestCase
     {
         parent::setUp();
 
-        /** @var Authenticatable $user */
-        $this->user = User::factory()->create(); // テスト用のユーザーを作成
         $this->actingAs($this->user); // テスト用のユーザーでログインする
 
         // テスト用に「特定の日付」の勤怠データを作成

@@ -2,25 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\Attendance;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use App\Models\Attendance;
 use Carbon\Carbon;
 
 class AttendanceIndexTest extends TestCase
 {
-    use RefreshDatabase;
-
-    private $user;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->user = User::factory()->create();
-    }
-
     // 自分の勤怠情報が全て表示されている
     #[Test]
     public function all_attendance_records_are_displayed()

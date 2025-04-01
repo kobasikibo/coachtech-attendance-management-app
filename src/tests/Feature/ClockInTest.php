@@ -2,24 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
-use App\Models\Attendance;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use App\Models\Attendance;
 
 class ClockInTest extends TestCase
 {
-    use RefreshDatabase;
-
     #[Test]
     public function user_can_clock_in()
     {
-        $user = User::factory()->create();
-
-        /** @var Authenticatable $user */
-        $this->actingAs($user);
+        $this->actingAs($this->user);
 
         // 出勤ボタンが表示される
         $response = $this->get(route('attendance.create'));
@@ -29,7 +21,7 @@ class ClockInTest extends TestCase
         $response = $this->post(route('attendance.clockIn'));
 
         // ステータスが「出勤中」になったことを確認
-        $attendance = Attendance::where('user_id', $user->id)
+        $attendance = Attendance::where('user_id', $this->user->id)
         ->where('date', today())
         ->first();
 
@@ -39,10 +31,7 @@ class ClockInTest extends TestCase
     #[Test]
     public function user_cannot_clock_in_more_than_once_per_day()
     {
-        $user = User::factory()->create();
-
-        /** @var Authenticatable $user */
-        $this->actingAs($user);
+        $this->actingAs($this->user);
 
         // 出勤処理を実行
         $response = $this->post(route('attendance.clockIn'));
@@ -55,16 +44,13 @@ class ClockInTest extends TestCase
     #[Test]
     public function clock_in_time_is_recorded()
     {
-        $user = User::factory()->create();
-
-        /** @var Authenticatable $user */
-        $this->actingAs($user);
+        $this->actingAs($this->user);
 
         // 出勤処理を実行
         $this->post(route('attendance.clockIn'));
 
         // 出勤時刻を確認
-        $attendance = Attendance::where('user_id', $user->id)->first();
+        $attendance = Attendance::where('user_id', $this->user->id)->first();
         $this->assertNotNull($attendance->clock_in);
     }
 }

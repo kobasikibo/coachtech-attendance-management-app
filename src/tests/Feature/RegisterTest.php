@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class RegisterTest extends TestCase
 {
-    use RefreshDatabase;
-
     #[Test]
     public function test_name_is_required()
     {

@@ -17,7 +17,8 @@ class AttendanceCorrectRequestFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'clock_in' => $this->faker->dateTimeBetween('08:00', '10:00'),
+            'clock_out' => $this->faker->dateTimeBetween('17:00', '20:00'),
         ];
     }
 }

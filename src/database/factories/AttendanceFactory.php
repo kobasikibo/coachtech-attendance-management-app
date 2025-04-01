@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Attendance;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Carbon\Carbon;
 
 class AttendanceFactory extends Factory
 {
@@ -11,10 +12,12 @@ class AttendanceFactory extends Factory
 
     public function definition()
     {
+        $date = Carbon::today()->subDays(rand(0, 30));
+
         return [
-            'date' => $this->faker->date(),
-            'clock_in' => $this->faker->dateTimeBetween('08:00', '10:00'),
-            'clock_out' => $this->faker->dateTimeBetween('17:00', '20:00'),
+            'date' => $date,
+            'clock_in' => $date->copy()->setTime(rand(8, 10), rand(0, 59), rand(0, 59)),
+            'clock_out' => $date->copy()->setTime(rand(17, 20), rand(0, 59), rand(0, 59)),
             'status' => Attendance::STATUS_CLOCKED_OUT,
             'approval_status' => $this->faker->randomElement([
                 Attendance::APPROVAL_REGISTERED,
@@ -22,5 +25,18 @@ class AttendanceFactory extends Factory
                 Attendance::APPROVAL_APPROVED,
             ]),
         ];
+    }
+
+    public function forDate(Carbon $date)
+    {
+        return $this->state(
+            function () use ($date) {
+            return [
+                'date' => $date,
+                'clock_in' => $date->copy()->setTime(rand(8, 10), rand(0, 59), rand(0, 59)),
+                'clock_out' => $date->copy()->setTime(rand(17, 20), rand(0, 59), rand(0, 59)),
+                ];
+            }
+        );
     }
 }

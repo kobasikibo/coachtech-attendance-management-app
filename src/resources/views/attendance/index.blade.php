@@ -15,7 +15,7 @@
 
     <div class="navigation-item">
         <img src="{{ asset('images/icons/calendar-icon.png') }}" alt="カレンダー" class="calendar-icon">
-        <span class="navigation-month">{{ \Carbon\Carbon::parse($currentMonth)->format('Y/m') }}</span>
+        <span class="navigation-month">{{ $currentMonth->format('Y/m') }}</span>
     </div>
 
     <div class="navigation-item {{ $currentMonth->format('Y-m') ==  now()->format('Y-m') ? 'invisible' : '' }}">
