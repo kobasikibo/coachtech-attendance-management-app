@@ -13,7 +13,7 @@ class AttendanceSeeder extends Seeder
     {
         User::all()->each(function ($user) {
             $attendanceCount = 0;
-            $currentDate = Carbon::now()->subMonth();
+            $currentDate = Carbon::yesterday();
 
             while ($attendanceCount < 20) {
                 if (!$currentDate->isWeekend()) {
@@ -26,7 +26,7 @@ class AttendanceSeeder extends Seeder
 
                     $attendanceCount++;
                 }
-                $currentDate->addDay();
+                $currentDate->subDay();
             }
         });
     }
