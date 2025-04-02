@@ -40,8 +40,8 @@
 @if (session('success'))
 <div class="success">{{ session('success') }}</div>
 @endif
-@if (session('error'))
-<div class="error">{{ session('error') }}</div>
+@if (session('message'))
+<div class="message">{{ session('message') }}</div>
 @endif
 
 <script src="{{ asset('js/attendance-create.js') }}"></script>

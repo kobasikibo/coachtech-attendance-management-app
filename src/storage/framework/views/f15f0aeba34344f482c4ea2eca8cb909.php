@@ -39,8 +39,8 @@
 <?php if(session('success')): ?>
 <div class="success"><?php echo e(session('success')); ?></div>
 <?php endif; ?>
-<?php if(session('error')): ?>
-<div class="error"><?php echo e(session('error')); ?></div>
+<?php if(session('message')): ?>
+<div class="message"><?php echo e(session('message')); ?></div>
 <?php endif; ?>
 
 <script src="<?php echo e(asset('js/attendance-create.js')); ?>"></script>

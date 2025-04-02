@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Actions\Fortify\CreateNewUser;
 use App\Http\Requests\RegisterRequest;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -21,6 +22,10 @@ class RegisterController extends Controller
 
         $user->sendEmailVerificationNotification();
 
-        return redirect()->route('login')->with('message', '確認メールを送信しました。メールアドレスを確認してください。');
+        $user->update(['is_first_login' => false]);
+
+        Auth::login($user);
+
+        return redirect()->route('attendance.create')->with('message', '確認メールを送信しました。メールアドレスを確認してください。');
     }
 }

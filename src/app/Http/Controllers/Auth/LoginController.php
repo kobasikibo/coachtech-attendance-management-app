@@ -21,14 +21,6 @@ class LoginController extends Controller
 
                 return redirect()->route('login')->with('message', 'メール認証が完了していません。確認メールを再送信しました。');
             }
-
-            if ($user->is_first_login) {
-                $user->refresh();
-                $user->update(['is_first_login' => false]);
-
-                return redirect('/attendance');
-            }
-
             return redirect()->intended('/attendance');
         }
 
