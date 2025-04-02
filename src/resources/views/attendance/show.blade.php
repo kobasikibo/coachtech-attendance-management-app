@@ -47,6 +47,9 @@
             @error('clock_in')
             <div class="error">{{ $message }}</div>
             @enderror
+            @error('clock_out')
+            <div class="error">{{ $message }}</div>
+            @enderror
         </div>
 
         @forelse ($formattedBreaks as $index => $break)

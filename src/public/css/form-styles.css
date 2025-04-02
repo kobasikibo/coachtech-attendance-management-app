@@ -80,3 +80,7 @@ h1 {
 .auth-link:hover {
     color: rgba(0, 115, 204, 0.6);
 }
+
+.error {
+    font-size: 1.2vw;
+}

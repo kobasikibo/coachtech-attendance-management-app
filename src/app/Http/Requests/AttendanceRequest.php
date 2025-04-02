@@ -14,7 +14,7 @@ class AttendanceRequest extends FormRequest
             'remarks' => 'required|string',
             'breaks' => 'array|nullable',
             'breaks.*.break_start' => 'nullable|date_format:H:i|before:breaks.*.break_end|after:clock_in',
-            'breaks.*.break_end' => 'nullable|date_format:H:i|before:clock_out',
+            'breaks.*.break_end' => 'nullable|date_format:H:i|before:clock_out|required_with:breaks.*.break_start',
         ];
     }
 
@@ -28,6 +28,7 @@ class AttendanceRequest extends FormRequest
             'breaks.*.break_start.before' => '休憩開始時間もしくは休憩終了時間が不適切な値です',
             'breaks.*.break_start.after' => '休憩時間が勤務時間外です',
             'breaks.*.break_end.before' => '休憩時間が勤務時間外です',
+            'breaks.*.break_end.required_with' => '休憩の終了時間を記入してください',
         ];
     }
 }
