@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('date');
             $table->timestamp('clock_in');
             $table->timestamp('clock_out')->nullable();
-            $table->string('remarks')->nullable();
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }
