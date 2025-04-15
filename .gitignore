@@ -18,4 +18,3 @@ docker-compose.local.yml
 # SSL certificates
 *.crt
 *.key
-default.conf
