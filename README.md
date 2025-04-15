@@ -2,7 +2,7 @@
 
 ## 環境構築
 
-1. `git clone git@github.com:kobasikibo/coachtech-flea-market.git`
+1. `git clone git@github.com/kobasikibo/coachtech-attendance-management-app.git`
 2. `docker compose up -d --build`
 
 **Laravel環境構築**
