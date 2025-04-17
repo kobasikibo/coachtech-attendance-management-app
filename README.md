@@ -3,14 +3,18 @@
 ## 環境構築
 
 1. `git clone git@github.com:kobasikibo/coachtech-attendance-management-app.git`
-2. `docker compose up -d --build`
+   `cd coachtech-attendance-management-app`
 
-**Laravel環境構築**
-1. `docker compose exec php sh`
-2. `composer -v`
-3. .env.exampleファイルから.envを作成し、環境変数を変更
+2. .env.exampleファイルから.envを作成し、環境変数を変更
+``` sh
+cp .env.example .env
+```
 ``` text
 APP_TIMEZONE=Asia/Tokyo
+
+APP_LOCALE=ja
+APP_FALLBACK_LOCALE=ja
+APP_FAKER_LOCALE=ja_JP
 
 DB_CONNECTION=mysql
 DB_HOST=mysql
@@ -19,20 +23,22 @@ DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 
-APP_LOCALE=ja
-APP_FALLBACK_LOCALE=ja
-APP_FAKER_LOCALE=ja_JP
-
 SESSION_DRIVER=file
 
 CACHE_DRIVER=file
 ```
-4. アプリケーションキーの作成
+3. Laravelパッケージのインストール
 ``` sh
-php artisan key:generate
+docker compose run --rm php composer install
 ```
-5. マイグレーションとシーディングの実行
+4. コンテナをビルド・起動
 ``` sh
+docker compose up -d --build
+```
+5. Laravelアプリケーションの初期設定
+``` sh
+docker compose exec php sh
+php artisan key:generate
 php artisan migrate --seed
 ```
 
