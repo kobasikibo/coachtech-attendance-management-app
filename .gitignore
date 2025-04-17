@@ -15,6 +15,9 @@ docker-compose.local.yml
 *.swp
 .dockerignore
 
+# Docker volume (MySQL)
+docker/mysql/data/
+
 # SSL certificates
 *.crt
 *.key

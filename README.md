@@ -2,11 +2,13 @@
 
 ## 環境構築
 
-1. `git clone git@github.com:kobasikibo/coachtech-attendance-management-app.git`
-   `cd coachtech-attendance-management-app`
-
+1. リポジトリをクローン
+```
+git clone git@github.com:kobasikibo/coachtech-attendance-management-app.git
+cd coachtech-attendance-management-app
+```
 2. .env.exampleファイルから.envを作成し、環境変数を変更
-``` sh
+```
 cp .env.example .env
 ```
 ``` text
@@ -27,16 +29,25 @@ SESSION_DRIVER=file
 
 CACHE_DRIVER=file
 ```
-3. Laravelパッケージのインストール
-``` sh
-docker compose run --rm php composer install
+3. 自己署名証明書の作成
+```sh
+mkdir -p docker/nginx/ssl
+
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout docker/nginx/ssl/server.key \
+  -out docker/nginx/ssl/server.crt \
+  -subj "/C=JP/ST=Tokyo/L=Shibuya/O=Coachtech/CN=localhost"
 ```
 4. コンテナをビルド・起動
-``` sh
+```
 docker compose up -d --build
 ```
-5. Laravelアプリケーションの初期設定
-``` sh
+5. Laravelパッケージのインストール
+```
+docker compose run --rm php composer install
+```
+6. Laravelアプリケーションの初期設定
+```
 docker compose exec php sh
 php artisan key:generate
 php artisan migrate --seed
