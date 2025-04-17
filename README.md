@@ -44,7 +44,7 @@ docker compose up -d --build
 ```
 5. Laravelパッケージのインストール
 ```
-docker compose run --rm php composer install
+docker compose exec --workdir=/var/www php composer install
 ```
 6. Laravelアプリケーションの初期設定
 ```
