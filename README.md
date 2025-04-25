@@ -13,6 +13,7 @@ cp .env.example .env
 ```
 ``` text
 APP_TIMEZONE=Asia/Tokyo
+APP_URL=https://localhost
 
 APP_LOCALE=ja
 APP_FALLBACK_LOCALE=ja
@@ -27,7 +28,15 @@ DB_PASSWORD=laravel_pass
 
 SESSION_DRIVER=file
 
-CACHE_DRIVER=file
+CACHE_STORE=file
+
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=25
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
 ```
 3. 自己署名証明書の作成
 ```sh
@@ -46,19 +55,18 @@ docker compose up -d --build
 ```
 docker compose exec --workdir=/var/www php composer install
 ```
-6. Laravelアプリケーションの初期設定
+6. Laravel Fortify をインストール
 ```
 docker compose exec php sh
+composer require laravel/fortify
+```
+7. Laravelアプリケーションの初期設定
+```
 php artisan key:generate
 php artisan migrate --seed
 ```
 
-**Fortifyの設定**
-1. `docker compose exec php sh`
-2. `composer require laravel/fortify`
-
 **Mailhogの設定**
-1. Mailhogを使用するため、.envの環境変数を変更
 ``` text
 MAIL_MAILER=smtp
 MAIL_HOST=mailhog
